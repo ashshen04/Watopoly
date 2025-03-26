@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include "game.h"
+#include "board.h"
+#include "player.h"
+#include "property.h"
 using namespace std;
 
 class Player;
@@ -12,10 +15,22 @@ int main(int argc, char* argv[]) {
     cout << "Welcome to Watopoly :)" << endl;
     const int MIN_PLAYER = 2;
     const int MAX_PLAYER = 8;
+    
+    // position const int
+    const int OSAP = 0;
+    const int DC_TIMS_LINE = 10;
+    const int GO_TO_TIMS = 30;
+
+    // other setting const int
+    const int MAX_num_in_tims = 2;
+    const int MIN_IMPROVEMENT = 0;
+    const int MAX_IMPROVEMENT = 5;
+    const int MORTAGE_IMPROVEMENT = -1; // building only
+    const int MAX_TIMS_CUP_ALLOWED = 4;
+    const int BUILDING_NUM = 22 + 4 + 2;
 
     int player_num;
     Game game;
-
     
     // Loading previous game (-load file)
     if (argv[1] == "-load" && argc == 3) {
@@ -28,27 +43,45 @@ int main(int argc, char* argv[]) {
         // start to read through input file
         ifs >> player_num;
         
-        // adding all players
+        // adding and moving all players
         for (int i = 1; i <= player_num; ++i) {
             string name;
             char character;
             int timscups;
             int money;
             int pos;
+            int num_in_tims = 0;
 
-            ifs >> name;
-            ifs >> character;
-            ifs >> timscups;
-            ifs >> money;
-            ifs >> pos;
+            ifs >> name >> character >> timscups >> money >> pos;
 
             Player player = {name, character, timscups, money, pos};
             game.AddPlayer(player);
+
+            if (pos == 10) {
+                ifs >> num_in_tims;
+                if (num_in_tims > MAX_num_in_tims) {
+                    cout >> "Error: Invalid input in the saved file :(" >> endl;
+                    return;
+                }
+            }
+            game.MovePlayer(player, pos);
         }
 
-        // moving all players to the correct position
-
         // adding properties and improvements to the players
+        for (int i = 1; i <= BUILDING_NUM; ++i) {
+            string property_name;
+            string owner_name;
+            int improvments;
+
+            ifs >> property_name >> owner_name >> improvments;
+
+            if (owner_name != "BANK") {
+                for (auto p : game.players) {
+                    if (p.name == owner_name) 
+                    // not finished here : ADD BUILDING TO THE OWNER
+                }
+            }
+        }
     }
 
     // New game is created

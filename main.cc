@@ -12,7 +12,7 @@ int main(int argc, char*[] argv) {
 
     // New game is created
     if (argv[0] == "./watopoly") {
-
+        
     }
     // Loading previous game (-load file)
 

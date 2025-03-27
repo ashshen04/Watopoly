@@ -79,13 +79,42 @@ int main(int argc, char* argv[]) {
                 for (auto p : game.players) {
                     if (p.name == owner_name) 
                     // not finished here : ADD BUILDING TO THE OWNER
+                    // Also adding the improvement of the building 
                 }
             }
         }
     }
 
-    // New game is created
-
     // Testing Mode (-testing)
+
+     // New game is created
+    else {
+        cout << "New Game is Created!" << endl;
+        cout << "Start Inputting Player Information:" << endl;
+        cout << "Enter the number of players (between " << MIN_PLAYER << " and " << MAX_PLAYER << "): ";
+        cin >> player_num;
+
+        // deal with invalid input
+        while (player_num < MIN_PLAYER || player_num > MAX_PLAYER) {
+            cout << "Invalid number of players. Please enter a number between " << MIN_PLAYER << " and " << MAX_PLAYER << ": ";
+            cin >> player_num;
+        }
+
+        // valid inputs, now add players
+        for (int i = 0; i < player_num; ++i) {
+            string name;
+            char character;
+            cout << "Enter name for Player " << i + 1 << ": ";
+            cin >> name;
+            cout << "Enter a single character to represent Player " << i + 1 << ": ";
+            cin >> character;
+
+            Player player = {name, character, 0, 1500, OSAP}; // Default starting values
+            game.AddPlayer(player);
+        }
+
+        cout << "All players have been added. Starting the game!" << endl;
+        game.Start();
+    }
 
 }

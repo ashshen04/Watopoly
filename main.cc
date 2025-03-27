@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
     const int MORTAGE_IMPROVEMENT = -1; // building only
     const int MAX_TIMS_CUP_ALLOWED = 4;
     const int BUILDING_NUM = 22 + 4 + 2;
+    const int DEFAULT_MONEY = 1500;
 
     int player_num;
     Game game;
@@ -38,7 +39,12 @@ int main(int argc, char* argv[]) {
         game_file = argv[2];
         ifstream ifs{game_file};
 
-        cout << "Loading Previous Saved Game in" << game_file << endl;
+        if (!ifs) {
+            cout << "Error: Could not open file " << game_file << endl;
+            return 1;
+        } 
+
+        cout << "Loading Previous Saved Game from " << game_file << endl;
 
         // start to read through input file
         ifs >> player_num;
@@ -61,7 +67,7 @@ int main(int argc, char* argv[]) {
                 ifs >> num_in_tims;
                 if (num_in_tims > MAX_num_in_tims) {
                     cout >> "Error: Invalid input in the saved file :(" >> endl;
-                    return;
+                    return 1;
                 }
             }
             game.MovePlayer(player, pos);
@@ -101,20 +107,19 @@ int main(int argc, char* argv[]) {
         }
 
         // valid inputs, now add players
-        for (int i = 0; i < player_num; ++i) {
+        for (int i = 1; i <= player_num; ++i) {
             string name;
             char character;
-            cout << "Enter name for Player " << i + 1 << ": ";
+            cout << "Enter name for Player " << i << ": ";
             cin >> name;
-            cout << "Enter a single character to represent Player " << i + 1 << ": ";
+            cout << "Enter a single character to represent Player " << i << ": ";
             cin >> character;
 
-            Player player = {name, character, 0, 1500, OSAP}; // Default starting values
+            Player player = {name, character, 0, DEFAULT_MONEY, OSAP}; // Default starting values
             game.AddPlayer(player);
         }
 
         cout << "All players have been added. Starting the game!" << endl;
         game.Start();
     }
-
 }

@@ -84,8 +84,7 @@ int main(int argc, char* argv[]) {
             if (owner_name != "BANK") {
                 for (auto p : game.players) {
                     if (p.name == owner_name) 
-                    // not finished here : ADD BUILDING TO THE OWNER
-                    // Also adding the improvement of the building 
+                    game.AddProperty(property_name, owner_name, improvements);
                 }
             }
         }
@@ -93,7 +92,7 @@ int main(int argc, char* argv[]) {
 
     // Testing Mode (-testing)
 
-     // New game is created
+    // New game is created
     else {
         cout << "New Game is Created!" << endl;
         cout << "Start Inputting Player Information:" << endl;

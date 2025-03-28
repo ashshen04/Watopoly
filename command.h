@@ -9,7 +9,7 @@ class Command {
     Game& game;
 
     public:
-        Command();
+        Command(Game& game);
         void readInput(istream& in);
 };
 

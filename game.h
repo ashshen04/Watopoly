@@ -8,6 +8,7 @@ class Player;
 
 class Game {
     vector<Player> players;
+    vector<shared_ptr<Player>> currPlayer;
 
     public:
     void AddPlayer(Player& player);

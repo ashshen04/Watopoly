@@ -7,13 +7,14 @@ using namespace std;
 class Board {
     // data fields
     map<string, int> players_position;
+    map<string, int> sqaures;
 
     public:
         Board();
         void draw();
-        
-
+    private:
+        void InitializeBoard();
+    
 };
-
 
 #endif

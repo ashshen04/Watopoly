@@ -13,5 +13,4 @@ class Command {
         void readInput(istream& in);
 };
 
-
 #endif

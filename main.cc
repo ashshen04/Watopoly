@@ -88,9 +88,11 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
-    }
+
+        game.LoadGame();
 
     // Testing Mode (-testing)
+    } else if {agrv[1] == "-testing"}
 
     // New game is created
     else {

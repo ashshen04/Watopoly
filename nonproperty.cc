@@ -1,5 +1,5 @@
 #include "nonproperty.h"
-using namaspace std;
+using namespace std;
 
-NonProperty::NonProperty
+NonProperty::NonProperty(const string name, int position) : Square{name, position} {}
 

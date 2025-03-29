@@ -7,7 +7,7 @@ using namespace std;
 class TimsLine : public NonProperty {
     public:
         void action(Player& p) override {
-            // 
+            
         }
 };
 

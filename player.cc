@@ -1,7 +1,7 @@
-#include "player.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "player.h"
 using namespace std;
 
 Player::Player(string name, char character, unsigned int money, int position) 
@@ -11,54 +11,74 @@ string Player::getName() {
     return name;
 }
 
-char getChar() {
+char Player::getChar() {
     return character;
 }
 
-unsigned int getMoney() {
+unsigned int Player::getMoney() {
     return money;
 }
 
-void improve(string property) {
-    properties.at();
+void Player::improve(string property) {
+    if (properties.at(property)) {
+        ++properties.at(property);
+        cout << property << "is improved! It now has" << properties.at(property) << "improvements" << endl;
+    } else {
+        cout << "Error: Improve Property that is not owned!" << endl;
+    }
+
 }
 
-void trade(char c, string give, string receive) {
+void Player::trade(char c, string give, string receive) {
     
 }
 
-void mortgage(Property property);
+void Player::mortgage(string property) {}
 
-void unmortgage(Property property);
+void Player::unmortgage(string property) {}
 
-void bankrupt() {
+void Player::bankrupt() {
     
 }
 
-void assets() {
+void Player::assets() {
+    int asset;
     
     // add situation of not called after Tuition
 }
 
-void all() 
+void Player::all() {}
 
-void notifyObservers()
+void Player::notifyObservers() {}
 
-void AddMoney(int added) {
+void Player::AddMoney(int added) {
     money += added;
 }
 
-void SubMoney(int subed) {
+void Player::SubMoney(int subed) {
     // lead to option of mortgage ...
 }
 
-void moveto(int pos) {
+void Player::moveto(int pos) {
     position = pos;
 }
 
-void move(int pos) {
-    position += pos;
+void Player::move(int pos) {
+    int tmp = position + pos;
+    if (tmp > SQUARE_SIZE) { // ie >40 for basic watopoly
+        AddMoney(OSAP);
+        cout << "Passed by OSAP!!! $200 is added for you!" << endl;
+    }
+    position = tmp % SQUARE_SIZE;
 }
 
-~Player();
+void Player::AddTimsCup() {
+    ++timsCups;
+}
+
+void Player::UseTimsCup() {
+    --timsCups;
+}
+
+Player::~Player() {}
 

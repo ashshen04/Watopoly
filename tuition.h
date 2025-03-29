@@ -17,12 +17,12 @@ class GooseNesting : public NonProperty {
             string in;
             cin >> in;
             if (in == "Option1") {
-                p.AddMoney(-const_tuition);
+                p.SubMoney(const_tuition);
                 cout << "You have paid $300 tuition as your tuition" << endl;
             }
             else if (in == "Option2") {
-                int percentage_tuition = p.asset() * 0.1;
-                p.AddMoney(-percentage_tuition);
+                int percentage_tuition = p.assets() * 0.1;
+                p.SubMoney(percentage_tuition);
                 cout << "You have paid 10%% of your total worth as your tuition" << endl;
             } else {
                 cout << "Error: Invalid input. Please re-enter Option1 or Option2" << endl;

@@ -7,7 +7,9 @@
 #include <fstream>
 #include <string>
 #include <map>
-#include "property.h"
+
+const int SQUARE_SIZE = 40;
+const int OSAP = 200;
 
 class Player {
     string name;
@@ -26,10 +28,10 @@ class Player {
         string getName();
         char getChar();
         unsigned int getMoney();
-        void improve(Property property);
+        void improve(string property);
         void trade(char c, string give, string receive);
-        void mortgage(Property property);
-        void unmortgage(Property property);
+        void mortgage(string property);
+        void unmortgage(string property);
         void bankrupt(); // consider removing this and add a bankrupt() under game
         void assets();
         void all();
@@ -37,7 +39,9 @@ class Player {
         void AddMoney(int added);
         void SubMoney(int subed);
         void moveto(int pos); // move from osap
-        void mvoe(int pos); // move from the original position
+        void move(int pos); // move from the original position
+        void AddTimsCup();
+        void UseTimsCup();
 
         ~Player();
 

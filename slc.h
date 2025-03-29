@@ -1,13 +1,16 @@
-#ifndef TIMSLINE_H
-#define TIMSLINE_H
+#ifndef SLC_H
+#define SLC_H
+#include <iostream>
 #include "player.h"
 #include "nonproperty.h"
+#include "rolluprimcup.h"
 using namespace std;
 
-class TimsLine : public NonProperty {
+
+class SLC : public NonProperty {
     public:
         void action(Player& p) override {
-            // 
+            
         }
 };
 

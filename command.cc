@@ -15,6 +15,7 @@ void Command::readInput(istream &in){
     while (in) {
         if (command == "roll") {
             game.movePlayer();
+            // this turn do something here
         } else if (command == "next") {
             game.nextPlayer();
         } else if (command == "trade") {

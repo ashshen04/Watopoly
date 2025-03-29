@@ -1,14 +1,32 @@
 #ifndef GOOSENESTING_H
 #define GOOSENESTING_H
 #include <iostream>
+#include <string>
 #include "nonproperty.h"
 #include "player.h"
 using namespace std;
 
 class GooseNesting : public NonProperty {
+    const int const_tuition = 300;
     public:
-        void action(Player& p) {
-            cout << "Attacked: You are attacked by a flock of nesting geese!" << endl;
+        void action(Player& p) override {
+            cout << "You need to pay Tuition! Choose between Option1 and Option2:" << endl;
+            cout << "Option1: $300" << endl;
+            cout << "Option2: 10%% of your total worth" << endl;
+            
+            string in;
+            cin >> in;
+            if (in == "Option1") {
+                p.AddMoney(-const_tuition);
+                cout << "You have paid $300 tuition as your tuition" << endl;
+            }
+            else if (in == "Option2") {
+                int percentage_tuition = p.asset() * 0.1;
+                p.AddMoney(-percentage_tuition);
+                cout << "You have paid 10%% of your total worth as your tuition" << endl;
+            } else {
+                cout << "Error: Invalid input. Please re-enter Option1 or Option2" << endl;
+            }
         }
 };
 

@@ -7,11 +7,12 @@
 #include "gym.h"       
 #include "residence.h" 
 #include "const.h"
+#include "game.h"
 
 using namespace std;
 
-Player::Player(string name, char character, double money, int position, double assets) 
-    : name{name}, character{character}, money{money}, position{position}, assets{assets}, playerImproveCost{0} {}
+Player::Player(string name, char character, double money, int position, double assets, Game &game) 
+    : name{name}, character{character}, money{money}, position{position}, assets{assets}, playerImproveCost{0},game(game) {}
 
 
 void Player::calculateAssets() {
@@ -176,10 +177,8 @@ void Player::SubMoney(double subed) {
                     }
                 }
             } else if (ans == 't') {
-                cout<< "Trade with others:" << endl;
-                string playerName, give, receive;
-                cout<< "Enter <name> <give> <receive>" << endl;
-                cin >> playerName >> give >> receive;
+                cout<< "Initiating trade..." << endl;
+                game.trade();
                 // need inpleementation
             } else {
                 cout<< "Invalid input, please try again." << endl;
@@ -200,6 +199,7 @@ void Player::moveto(int pos) {
     position = pos;
 }
 
+
 void Player::move(int pos) {
     int tmp = position + pos;
     if (tmp > SQUARE_SIZE) { // ie >40 for basic watopoly
@@ -207,9 +207,17 @@ void Player::move(int pos) {
         cout << "Passed by OSAP!!! $200 is added for you!" << endl;
     }
     position = tmp % SQUARE_SIZE;
+    notifyObservers(position);
 }
 
+void Player::outofTims() {
+    changeinTims(false);
+    timsTurn = 0;
+}
 
+int Player::AddTimsTurn() {
+    ++timsTurn; 
+}
 
 Player::~Player() {}
 

@@ -1,5 +1,3 @@
-// add function add money to the play Player::AddMoney(int money);
-// Player::moveto(int pos)
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -10,11 +8,14 @@
 #include <vector>
 #include "square.h"
 #include "property.h"
+#include "subject.h"
 
 const int SQUARE_SIZE = 40;
 const int OSAP = 200;
 
-class Player {
+class Game;
+
+class Player : public Subject{
     string name;
     char character;
     double money;
@@ -24,9 +25,11 @@ class Player {
     bool inTims;
     int timsTurn;
     int timsCups;
+    Game &game;
+
 
     public:
-        Player(string name, char character, double money, int position, double assets);
+        Player(string name, char character, double money, int position, double assets, Game &game);
         int GymNums;
         int ResNums;
         double playerImproveCost;
@@ -43,8 +46,8 @@ class Player {
         double getPlayerImproveCost() const { return playerImproveCost; };
         
         //to be implemented
-        bool getinTims() const;
-        void changeinTims(bool status);
+        bool getinTims() const { return inTims; }
+        void changeinTims(bool status) { inTims = status; }
         void outofTims();
         int AddTimsTurn(); // add and return the timsturn
         
@@ -63,7 +66,6 @@ class Player {
 
         void bankrupt(); // consider removing this and add a bankrupt() under game
         void all();
-        void notifyObservers();
         
         // add action in move
         void moveto(int pos); // move from osap

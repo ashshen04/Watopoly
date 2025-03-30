@@ -4,12 +4,12 @@
 using namespace std;
 
 
-int Gym::getPurchaseCost() {
+double Gym::getPurchaseCost() {
     cout<<"Price for gym" << name<<" is: "<<PURCHASE_COST << endl;
     return PURCHASE_COST;
 }
 
-int Gym::getFee() {
+double Gym::getFee() {
     if (!owner) return 0;  // No owner = no fee
     if (isMortgaged()) {
         cout << "Property is mortgaged. No fee." << endl;

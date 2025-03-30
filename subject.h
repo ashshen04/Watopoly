@@ -23,13 +23,13 @@ class Subject {
             }
         }
 
-	    void notifyObserver() {
+	    void notifyObservers(int position) {
 		    for (auto &ob: observers) {
-                ob->notify();
+                ob->notify(position);
             }
         }
 
-	    virtual ~Subject() = 0;
+	    virtual ~Subject() = default;
 };
 
 #endif

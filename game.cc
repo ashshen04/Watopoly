@@ -2,13 +2,18 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <memory>
 #include "game.h"
 #include "player.h"
 #include "property.h"
 using namespace std;
 
-//change needed
-Game::Game(vector<Player> players, shared_ptr<Player> currPlayer) : players{players}, currPlayer{currPlayer} {}
+Game::Game(vector<Player> players, shared_ptr<Player> currPlayer, Dice &dice, Board &board) 
+    : players{players}, currPlayer{currPlayer}, dice{&dice}, board{&board} {
+        for (auto& player : players) {
+            players.emplace_back(player);
+        }
+    }
 
 void Game::AddPlayer(Player& player) {
     players.emplace_back(player);
@@ -16,6 +21,7 @@ void Game::AddPlayer(Player& player) {
 
 void Game::StartGame() {
     cout << "Game has started!" << endl;
+    board->drawBoard(cout);
 }
 
 void Game::EndGame() {
@@ -24,7 +30,7 @@ void Game::EndGame() {
 
 void Game::SaveGame(ofstream &file) {
     if (!file) {
-        cout << "Error: Invalid save file" << endl;
+        cerr << "Error: Invalid save file" << endl;
         return;
     }
 
@@ -44,20 +50,17 @@ void Game::SaveGame(ofstream &file) {
     
 }
 
-void Game::LoadGame() {
-
-}
-
 void Game::nextPlayer() {
-    
+    auto it = 
 }
 
 void Game::movePlayer() {
     Dice dice;
     int roll = dice.roll();
-    auto land_square = squares[]
+    
 }
 
 shared_ptr<Player> Game::findPlayer(string name) {
-    return players.at(name);
+    auto it = players.find(name);
+
 }

@@ -12,7 +12,7 @@ using namespace std;
 class Player;
 
 int main(int argc, char* argv[]) {
-    cout << "Welcome to Watopoly :)" << endl;
+    std::cout << "Welcome to Watopoly :)" << std::endl;
     const int MIN_PLAYER = 2;
     const int MAX_PLAYER = 8;
     

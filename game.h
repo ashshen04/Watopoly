@@ -22,16 +22,17 @@ class Game {
     Board * board;
 
     public:
-    Game(vector<Player> players, shared_ptr<Player> currPlayer);
-    
-    void AddPlayer(Player& player);
+    Game(vector<Player> players, shared_ptr<Player> currPlayer, Dice &dice, Board &board);
+
+    void AddPlayer(Player &player);
     void StartGame();
     void EndGame();
     void SaveGame(ofstream &file);
-    void LoadGame();
     void nextPlayer();
     void movePlayer();
+    void trade()
     shared_ptr<Player> findPlayer(string name);
+
 };
 
 #endif

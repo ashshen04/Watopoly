@@ -28,7 +28,7 @@ class SLC : public NonProperty {
             else if (random < 22) move = 3;
             else if (random == 22) {
                 p.moveto(TIMSLINE_POS);
-                p.changeinTims();
+                p.changeinTims(true);
                 cout << "Player" << p.getChar() << "is now sent to DC Tims Line :(" << endl;
                 return;
             } else { // random == 23

@@ -9,7 +9,8 @@ using namespace std;
 class OSAP : public NonProperty {
         const int AMOUNT_ADDED = 200;
     public:
-        void action(Player& p) {
+        OSAP(string name, int pos) : NonProperty{name, pos} {}
+        void action(Player& p) override {
             p.AddMoney(AMOUNT_ADDED);
             cout << "Passes over or lands on the Collect OSAP: $200 ADDED to player" << p.getChar() << endl;
         }

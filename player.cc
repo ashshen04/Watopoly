@@ -7,16 +7,35 @@ using namespace std;
 Player::Player(string name, char character, unsigned int money, int position) 
     : name{name}, character{character}, money{money}, position{position} {}
 
-string Player::getName() {
+string Player::getName() const {
     return name;
 }
 
-char Player::getChar() {
+char Player::getChar() const {
     return character;
 }
 
-unsigned int Player::getMoney() {
+unsigned int Player::getMoney() const {
     return money;
+}
+
+int Player::getPosition() const {
+    return position;
+}
+
+int Player::getTimsCup() const {
+    return timsCups;
+}
+
+int Player::getAssets() const {
+    int building_money;
+    
+    for (auto const & building : properties) {
+        // ...
+    }
+
+    int asset = money + building_money;
+    return asset;
 }
 
 void Player::improve(string property) {

@@ -7,6 +7,7 @@ class NonProperty : public Square{
     public:
         NonProperty(const string name, int position);
         void action(Player& p) override = 0;
+        virtual ~NonProperty() = default;
 };
 
 #endif

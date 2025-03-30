@@ -21,7 +21,7 @@ class GooseNesting : public NonProperty {
                 cout << "You have paid $300 tuition as your tuition" << endl;
             }
             else if (in == "Option2") {
-                int percentage_tuition = p.assets() * 0.1;
+                int percentage_tuition = static_cast<int> (p.assets() * 0.1);
                 p.SubMoney(percentage_tuition);
                 cout << "You have paid 10%% of your total worth as your tuition" << endl;
             } else {

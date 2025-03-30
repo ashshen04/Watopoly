@@ -3,13 +3,13 @@
 #include <iostream>
 #include "player.h"
 #include "nonproperty.h"
-#include "rolluprim.h"
+#include "rolluprimcup.h"
 using namespace std;
 
 
 class NHall : public NonProperty {
     public:
-        NHall(){};
+        NHall();
         void action(Player& p) override {
             
         }

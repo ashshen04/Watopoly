@@ -25,9 +25,12 @@ class Player {
     public:
         Player(string name, char character, unsigned int money, int position);
 
-        string getName();
-        char getChar();
-        unsigned int getMoney();
+        string getName() const;
+        char getChar() const;
+        unsigned int getMoney() const;
+        int getPosition() const;
+        int getTimsCup() const;
+        int getAssets() const;
         void improve(string property);
         void trade(char c, string give, string receive);
         void mortgage(string property);

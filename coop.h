@@ -6,10 +6,11 @@
 using namespace std;
 
 
-class OSAP : public NonProperty {
+class Coop : public NonProperty {
         const int COOP_FEE = 150;
     public:
-        void action(Player& p) {
+        Coop(string name, int pos) : NonProperty{name, pos} {}
+        void action(Player& p) override {
             p.SubMoney(COOP_FEE);
             cout << "Player" << p.getChar() << ": Paied $150 Coop Fee to School" << endl;
         }

@@ -1,4 +1,5 @@
 #include "dice.h"
+#include "const.h"
 #include <cstdlib> // standard library for rand()
 #include <ctime> // for time()
 using namespace std;

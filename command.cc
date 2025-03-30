@@ -10,9 +10,8 @@ Command::Command(Game& game): game{game} {}
 
 void Command::readInput(istream &in){
     string command;
-    in >> command;
 
-    while (in) {
+    while (in >> command) {
         if (command == "roll") {
             game.movePlayer();
             // this turn do something here

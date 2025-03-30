@@ -4,7 +4,7 @@
 #include "player.h"
 using namespace std;
 
-Player::Player(string name, char character, unsigned int money, int position) 
+Player::Player(string name, char character, double money, int position) 
     : name{name}, character{character}, money{money}, position{position} {}
 
 string Player::getName() const {
@@ -15,7 +15,7 @@ char Player::getChar() const {
     return character;
 }
 
-unsigned int Player::getMoney() const {
+double Player::getMoney() const {
     return money;
 }
 
@@ -31,7 +31,7 @@ int Player::getTimsCup() const {
     return timsCups;
 }
 
-int Player::getAssets() const {
+double Player::getAssets() const {
     int building_money;
     
     for (auto const & building : properties) {

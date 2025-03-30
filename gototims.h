@@ -11,7 +11,7 @@ class GotoTims : public NonProperty {
         GotoTims(string name, int pos) : NonProperty{name, pos} {}
         void action(Player& p) override {
             p.moveto(TIMSLINE_POS);
-            p.changeinTims();
+            p.changeinTims(true);
             cout << "Player" << p.getChar() << " : You are sent to DC Tims Line square" << endl;
         }
 };

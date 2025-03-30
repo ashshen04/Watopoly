@@ -32,6 +32,7 @@ class NHall : public NonProperty {
             if (random < 11) {
                 p.SubMoney(abs_money_change);
                 cout << "Player " << p.getChar() << "loses $" << abs_money_change << endl;
+                if (&p == nullptr) return;
             } else {
                 p.AddMoney(abs_money_change);
                 cout << "Player " << p.getChar() << "gains $" << abs_money_change << endl;

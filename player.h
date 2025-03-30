@@ -1,6 +1,3 @@
-// add function add money to the play Player::AddMoney(int money);
-// Player::moveto(int pos)
-
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <iostream>
@@ -14,7 +11,7 @@ const int OSAP = 200;
 class Player {
     string name;
     char character;
-    unsigned int money;
+    double money;
     int position;
     map<string, int> properties;
     bool inTims;
@@ -24,14 +21,14 @@ class Player {
     int ResNums;
 
     public:
-        Player(string name, char character, unsigned int money, int position);
+        Player(string name, char character, double money, int position);
 
         string getName() const;
         char getChar() const;
-        unsigned int getMoney() const;
+        double getMoney() const;
         int getPosition() const;
         int getTimsCup() const;
-        int getAssets() const;
+        double getAssets() const;
         bool getinTims() const;
         void changeinTims(bool status);
         void outofTims();

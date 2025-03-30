@@ -23,6 +23,10 @@ int Player::getPosition() const {
     return position;
 }
 
+bool Player::getinTims() const {
+    return inTims;
+}
+
 int Player::getTimsCup() const {
     return timsCups;
 }
@@ -36,6 +40,20 @@ int Player::getAssets() const {
 
     int asset = money + building_money;
     return asset;
+}
+
+void Player::changeinTims(bool status) { 
+    inTims = status;
+}
+
+void Player::outofTims() {
+    inTims = false;
+    timsTurn = 0;
+}
+
+int Player::AddTimsTurn() {
+    ++timsTurn;
+    return timsTurn;
 }
 
 void Player::improve(string property) {

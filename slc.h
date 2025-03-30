@@ -10,10 +10,12 @@ using namespace std;
 
 
 class SLC : public NonProperty {
+    RollUpRimCup* check;
     public:
-        SLC(string name, int pos) : NonProperty{name, pos} {}
+        SLC(string name, int pos) : NonProperty{name, pos}, check{nullptr} {}
         void action(Player& p) override {
             cout << "Player" << p.getChar() << " arrived at SLC! " << endl;
+            check->getCup(p);
             
             int random = rand() % 24;
             int move = 0;
@@ -26,8 +28,8 @@ class SLC : public NonProperty {
             else if (random < 22) move = 3;
             else if (random == 22) {
                 p.moveto(TIMSLINE_POS);
+                p.changeinTims();
                 cout << "Player" << p.getChar() << "is now sent to DC Tims Line :(" << endl;
-                // not finished
                 return;
             } else { // random == 23
                 p.moveto(OSAP_POS);
@@ -38,8 +40,6 @@ class SLC : public NonProperty {
 
             p.move(move);
             cout << "Player" << p.getChar() << "moves" << move << "space(s)" << endl;
-
-
         }
 };
 

@@ -18,6 +18,7 @@ class Player {
     int position;
     map<string, int> properties;
     bool inTims;
+    int timsTurn;
     int timsCups;
     int GymNums;
     int ResNums;
@@ -31,6 +32,10 @@ class Player {
         int getPosition() const;
         int getTimsCup() const;
         int getAssets() const;
+        bool getinTims() const;
+        void changeinTims(bool status);
+        void outofTims();
+        int AddTimsTurn(); // add and return the timsturn
         void improve(string property);
         void trade(char c, string give, string receive);
         void mortgage(string property);

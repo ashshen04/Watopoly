@@ -6,6 +6,7 @@
 #include "player.h"
 using namespace std;
 
+//change needed
 Game::Game(vector<Player> players, vector<shared_ptr<Player>> currPlayer) : players{players}, currPlayer{currPlayer} {}
 
 void Game::AddPlayer(Player& player) {

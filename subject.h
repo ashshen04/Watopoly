@@ -15,9 +15,9 @@ class Subject {
         }
 
 	    void detach(Observer *ob) {
-            for (auto p : observers) {
-                if (*p == ob) {
-                    observers.erase(p);
+            for (auto it = observers.begin(); it != observers.end(); ++it) {
+                if (*it == ob) {
+                    observers.erase(it);
                     break;
                 }
             }

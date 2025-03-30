@@ -1,6 +1,7 @@
 #ifndef ROLLUPRIMCUP_H
 #define ROLLUPRIMCUP_H
 #include <iostream>
+#include <cstdlib>
 #include "const.h"
 #include "player.h"
 #include "nonproperty.h"
@@ -11,7 +12,7 @@ class RollUpRimCup : public NonProperty {
     
     public:
         static void getCup(Player &p);
-        static void useCup();
+        static void useCup(Player &p);
 };
 
 #endif

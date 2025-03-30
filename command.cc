@@ -1,6 +1,7 @@
 #include "command.h"
 #include "board.h"
 #include "game.h"
+#include "const.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,35 +15,51 @@ void Command::readInput(istream &in){
     while (in >> command) {
         if (command == "roll") {
             game.movePlayer();
-            // this turn do something here
         } else if (command == "next") {
             game.nextPlayer();
         } else if (command == "trade") {
-            game.trade();
+            game.trade(); 
         } else if (command == "improve") {
             string property;
             string buy_or_sell;
             if (in >> property >> buy_or_sell) {
-                game.currPlayer.improve(Property acadBuilding, string action);
+                game.getCurrPlayer()->improve(string_to_property(property, buy_or_sell));
+            } else {
+                cerr << "Error: cannot improved because of invalid input" << endl;
             }
         } else if (command == "mortage") {
             string property_name;
-            Property property_to_apply = game.findProperty();
+            in >> property_name;
+            shared_ptr<Property> property_to_apply = string_to_property(property_name, game);
             // not finished yet, return back to this after class of Mortage is implemented
         } else if (command == "unmortgage") {
             string property_name;
+            in >> property_name;
             // same for this
         } else if (command == "bankrupt") {
-            game.currPlayer.bankrupt(); // fix this issue: CANNOT ACCESS THE PLAYER MEMBER FUNCTION DIRECTLY
+            game.getCurrPlayer()->bankrupt(); // Access currPlayer through a public getter method
         } else if (command == "assets") {
-            game.currPlayer.assets();
+            if (game.getCurrPlayer()->getPosition() != TUITION_POS) {
+                game.getCurrPlayer()->assets();
+            } else {
+                cerr << "Error: cannot open assets in Tuition!!! Make decision on your own" << endl;
+            }
         } else if (command == "all") {
-            game.currPlayer.all();
+            game.all();
         } else if (command == "save"){
             cout << "Please enter the file that you would like to save this game: " << endl;
             string file_name;
             in >> file_name;
-            game.SaveGame(file_name);
+            ofstream save_file{file_name};
+            if (save_file) {
+                game.SaveGame(save_file);
+            } else {
+                cerr << "Error: Could not open file " << file_name << " for saving" << endl;
+            }
+        } else if (command == "exit") {
+            break;
+        } else {
+            cerr << "Error: Invalid input. Re-enter" << endl;
         }
     }
 }

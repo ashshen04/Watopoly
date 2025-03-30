@@ -1,9 +1,15 @@
+// add function add money to the play Player::AddMoney(int money);
+// Player::moveto(int pos)
+
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <map>
+#include <vector>
+#include "square.h"
+#include "property.h"
 
 const int SQUARE_SIZE = 40;
 const int OSAP = 200;
@@ -12,41 +18,58 @@ class Player {
     string name;
     char character;
     double money;
+    double assets;
     int position;
-    map<string, int> properties;
+    vector<shared_ptr<Property>> properties;
     bool inTims;
     int timsTurn;
     int timsCups;
-    int GymNums;
-    int ResNums;
 
     public:
-        Player(string name, char character, double money, int position);
+        Player(string name, char character, double money, int position, double assets);
+        int GymNums;
+        int ResNums;
+        double playerImproveCost;
 
-        string getName() const;
-        char getChar() const;
-        double getMoney() const;
-        int getPosition() const;
-        int getTimsCup() const;
-        double getAssets() const;
+        string getName() const{ return name; };
+        char getChar() const{ return character; };
+        double getMoney() const{ return money; };
+        double getPosition() const{ return position; };
+        int getTimsCup() const{return timsCups;};
+        double getAssets() const{return assets;};
+        void printAssets() const{
+            cout << "You have " << assets << " in total assets." << endl;
+        };
+        double getPlayerImproveCost() const { return playerImproveCost; };
+        
+        //to be implemented
         bool getinTims() const;
         void changeinTims(bool status);
         void outofTims();
         int AddTimsTurn(); // add and return the timsturn
-        void improve(string property);
-        void trade(char c, string give, string receive);
-        void mortgage(string property);
-        void unmortgage(string property);
+        
+        void calculateAssets();
+        void improve(shared_ptr<Property> property);
+        bool trade(shared_ptr<Player> other, int give, shared_ptr<Property> receive);
+        bool trade(shared_ptr<Player> other, shared_ptr<Property> give, shared_ptr<Property> receive);
+        bool trade(shared_ptr<Player> other, shared_ptr<Property> give, int receive);
+        
+        void addProperty(Property *property);
+        void removeProperty(Property *property);
+
+        void AddMoney(double added);
+        void SubMoney(double subed);
+        double SubMoneyInt(double subed);
+
         void bankrupt(); // consider removing this and add a bankrupt() under game
-        void assets();
         void all();
         void notifyObservers();
-        void AddMoney(int added);
-        void SubMoney(int subed);
+        
+        // add action in move
         void moveto(int pos); // move from osap
         void move(int pos); // move from the original position
-        void AddTimsCup();
-        void UseTimsCup();
+        void AddTimsCup(){++timsCups;};
+        void UseTimsCup(){--timsCups;};
 
         ~Player();
 

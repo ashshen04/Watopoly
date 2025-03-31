@@ -132,36 +132,35 @@ void Game::trade() {
     cin >> receive;
 
     double giveValue, receiveValue;
-    bool giveIsDouble = false, receiveIsDouble = false;
+    shared_ptr<Property> giveProperty = nullptr;
+    shared_ptr<Property> receiveProperty = nullptr;
+
     stringstream sgive(give), srece(receive);
     if (sgive >> giveValue && sgive.eof()) {
-        giveIsDouble = true;
-    }
-    if (srece >> receiveValue && srece.eof()) {
-        receiveIsDouble = true;
-    }
-
-    if(giveIsDouble && receiveIsDouble) {
-        cout << "Trade money for money is not allowed." << endl;
-        return;
-    } else if(giveIsDouble) {
-        shared_ptr<Property> receiveProperty = string_to_property(receive, *this);
-        getCurrPlayer()->trade(otherPlayer, giveValue, receiveProperty); // money for property
-    } else if(receiveIsDouble) {
-        shared_ptr<Property> giveProperty = string_to_property(give, *this);
-        getCurrPlayer()->trade(otherPlayer, giveProperty, receiveValue); // property for money
-    } else if(!giveIsDouble && !receiveIsDouble) {
-        shared_ptr<Property> giveProperty = string_to_property(give, *this);
-        shared_ptr<Property> receiveProperty = string_to_property(receive, *this);
-        if (giveProperty && receiveProperty) {
-            getCurrPlayer()->trade(otherPlayer, giveProperty, receiveProperty); // property for property
-        } else {
-            cout << "Invalid trade." << endl;
+        giveProperty = string_to_property(give, *this);
+        if(giveProperty && (giveProperty->isMortgaged()|| giveProperty->getImproveNum()!=0)) {
+            cout << "You cannot trade a mortgaged property or a property with improvements." << endl;
             return;
         }
     }
-    cout << "Trade successful between " << getCurrPlayer()->getName()
-             << " and " << otherPlayer->getName() << "." << endl;
+    if (srece >> receiveValue && srece.eof()) {
+        receiveProperty = string_to_property(receive, *this);
+        if(receiveProperty && (receiveProperty->isMortgaged()|| receiveProperty->getImproveNum()!=0)) {
+            cout << "You cannot trade a mortgaged property or a property with improvements." << endl;
+            return;
+        }
+    }
+
+    if(giveProperty && receiveProperty){
+        getCurrPlayer()->trade(otherPlayer, giveProperty, receiveProperty);
+    } else if(giveProperty) {
+        getCurrPlayer()->trade(otherPlayer, giveProperty, receiveValue);
+    } else if(receiveProperty) {
+        getCurrPlayer()->trade(otherPlayer, giveValue, receiveProperty);
+    } else {
+        cout << "Invalid trade input. You can't trade money for money" << endl;
+    }
+    
 }
 
 void Game::all() {

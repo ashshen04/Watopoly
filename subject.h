@@ -23,9 +23,9 @@ class Subject {
             }
         }
 
-	    void notifyObservers(int position) {
+	    void notifyObservers(int position, int temp) {
 		    for (auto &ob: observers) {
-                ob->notify(position);
+                ob->notify(position, temp);
             }
         }
 

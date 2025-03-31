@@ -34,7 +34,9 @@ void Player::improve(shared_ptr<Property> property) {
         return;
     } if(dynamic_cast<Academic*>(property.get()) == nullptr) {
         property->buyImprove();
+        cout << "You have improved " << property->getName()<< endl;
         calculateAssets();
+        notifyObservers(property->getPosition(), property->getImproveNum());
     } else {
         cout << "You cannot improve this property." << endl;
     }
@@ -207,7 +209,7 @@ void Player::move(int pos) {
         cout << "Passed by OSAP!!! $200 is added for you!" << endl;
     }
     position = tmp % SQUARE_SIZE;
-    notifyObservers(position);
+    notifyObservers(position, 0);
 }
 
 void Player::outofTims() {

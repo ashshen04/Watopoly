@@ -75,19 +75,13 @@ Board::Board() {
 }
 
 
-
-void Board::updateImprovement(shared_ptr<Academic> academic) {
-  // gets the current improvement number
-  int improvementNumber = academic->getImproveNum();
-  // gets the position of the building
-  int position = academic->getPosition();
-  // sets the old string to empty
-  string temp = "|       |";
-  for (int i = 0; i < improvementNumber; i++) {
-    temp[i + 1] = 'I';
+void Board::notify(int position, int improveNum) {
+	string temp = "|       |";
+	for (int i = 0; i < improveNum; i++) {
+	  temp[i + 1] = 'I';
+	}
+	board[position][1] = temp;
   }
-  board[position][1] = temp;
-}
 
 void Board::updatePlayer(int oldPosition, int newPosition, char player) {
 	// for initial representation of players' position

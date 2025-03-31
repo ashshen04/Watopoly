@@ -21,7 +21,7 @@ class Board {
     Board();
 
     // Updates the improvement information stored in the board 
-    void updateImprovement(shared_ptr<Academic> academic);
+    void notify(int position, int improveNum);
     void updatePlayer(int oldPosition, int newPosition, char player);
     void removePlayer(int position, char player);
     void drawBoard(ostream & out);

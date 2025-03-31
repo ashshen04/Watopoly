@@ -13,7 +13,7 @@ int Square::getPosition() const {
     return position;
 }
 
-void Square::notify(int playpos) {
+void Square::notify(int playpos, int temp) {
     if (playpos == position) {
         cout << "Player landed on " << name << "!" << endl;
     }

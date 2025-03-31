@@ -9,7 +9,7 @@
 class Residence : public Property {
     static const int PURCHASE_COST = 200;
 public:
-    Residence::Residence(const string name, int position,shared_ptr<Player> owner):
+    Residence(const string name, int position,shared_ptr<Player> owner):
         Property{name,position,owner}{};
     double getFee() override;
     double getPurchaseCost() override;

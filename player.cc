@@ -11,8 +11,8 @@
 
 using namespace std;
 
-Player::Player(string name, char character, double money, int position, double assets, Game &game) 
-    : name{name}, character{character}, money{money}, position{position}, assets{assets}, playerImproveCost{0},game(game) {}
+Player::Player(string name, char character, int timscup, double money, int position, Game &game) 
+    : name{name}, character{character}, timsCups{timscup}, money{money}, position{position}, playerImproveCost{0},game(game) {}
 
 
 void Player::calculateAssets() {
@@ -24,7 +24,7 @@ void Player::calculateAssets() {
             building_money -= building->getPurchaseCost() / 2;
         }
     }
-    int asset = money + building_money;
+    assets = money + building_money;
 }
 
 
@@ -217,6 +217,7 @@ void Player::outofTims() {
 
 int Player::AddTimsTurn() {
     ++timsTurn; 
+    return timsTurn;
 }
 
 Player::~Player() {}

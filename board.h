@@ -7,6 +7,7 @@
 #include <map>
 #include <iostream>
 #include <iomanip>
+#include "academic.h"
 using namespace std;
 
 

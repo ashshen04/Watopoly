@@ -1,4 +1,3 @@
-
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <iostream>
@@ -6,14 +5,13 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "square.h"
-#include "property.h"
 #include "subject.h"
 
 const int SQUARE_SIZE = 40;
 const int OSAP = 200;
 
 class Game;
+class Property;
 
 class Player : public Subject{
     string name;
@@ -29,7 +27,7 @@ class Player : public Subject{
 
 
     public:
-        Player(string name, char character, double money, int position, double assets, Game &game);
+        Player(string name, char character, int timscup, double money, int position, Game &game);
         int GymNums;
         int ResNums;
         double playerImproveCost;

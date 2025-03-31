@@ -1,6 +1,12 @@
 #ifndef CONST_H
 #define CONST_H
 
+#include <memory>
+#include <string>
+#include "property.h"
+#include "player.h"
+#include "game.h"
+
 const int MaxCup = 4;
 const int TIMSLINE_POS = 10;
 const int OSAP_POS = 0;

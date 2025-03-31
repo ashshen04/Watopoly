@@ -10,6 +10,7 @@
 using namespace std;
 
 class MonopolyBlock; // Forward declaration
+class Property;
 
 class Academic : public Property {
     double purchaseCost;

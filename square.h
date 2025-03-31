@@ -1,11 +1,13 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 #include <string>
-#include "observer.h"
 #include "player.h"
+#include "observer.h"
 using namespace std;
 
-class Square : public Observer{
+class Player;
+
+class Square : public Observer {
     string name;
     int position;
 

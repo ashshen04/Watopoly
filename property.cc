@@ -12,9 +12,6 @@ Property::Property(const string name, int position, shared_ptr<Player> owner) :
     improveTotal(0),
     owner(owner) {}
 
-Property::~Property() = default;
-
-
 shared_ptr<Player> Property::getOwner() {return owner;}
 void Property::setOwner(shared_ptr<Player> newOwner) {owner = newOwner;}
 

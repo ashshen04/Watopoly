@@ -3,18 +3,18 @@
 using namespace std;
 
 
-int Residence::getPurchaseCost() {
+double Residence::getPurchaseCost() {
     cout<<"Price for residence " << name<<" is: "<<PURCHASE_COST << endl;
     return PURCHASE_COST;
 }
 
-int Residence::getFee() {
+double Residence::getFee() {
     if (!getOwner()) return 0;
     if (isMortgaged()){
         cout << "Property is mortgaged. No fee." << endl;
         return 0;  // No fee if property is mortgaged
     }
-    int residencesOwned = getOwner()->getResCount();
+    int residencesOwned = getOwner()->ResNums;
     double payable = 0;
     switch(residencesOwned) {
         case 1: payable = 25;

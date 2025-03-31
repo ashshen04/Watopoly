@@ -17,7 +17,7 @@ double Gym::getFee() {
     }
     
     int diceSum = dice.roll();
-    int gymsOwned = owner.getGymCount(); 
+    int gymsOwned = owner->GymNums; 
     double payable = (gymsOwned == 1) ? diceSum * 4 : diceSum * 10;
     cout<<"Fee for " << name<<" is: "<< payable << endl;
     return payable;

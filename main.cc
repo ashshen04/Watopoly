@@ -7,6 +7,8 @@
 #include "board.h"
 #include "player.h"
 #include "property.h"
+#include "nonproperty.h"
+#include "square.h"
 using namespace std;
 
 class Player;
@@ -34,7 +36,7 @@ int main(int argc, char* argv[]) {
     Game game;
     
     // Loading previous game (-load file)
-    if (argv[1] == "-load" && argc == 3) {
+    if (strcmp(argv[1], "-load") && argc == 3) {
         string game_file;
         game_file = argv[2];
         ifstream ifs{game_file};
@@ -54,23 +56,23 @@ int main(int argc, char* argv[]) {
             string name;
             char character;
             int timscups;
-            int money;
+            double money;
             int pos;
             int num_in_tims = 0;
 
             ifs >> name >> character >> timscups >> money >> pos;
 
-            Player player = {name, character, timscups, money, pos};
+            Player player = {name, character, timscups, money, pos, game};
             game.AddPlayer(player);
 
             if (pos == 10) {
                 ifs >> num_in_tims;
                 if (num_in_tims > MAX_num_in_tims) {
-                    cout >> "Error: Invalid input in the saved file :(" >> endl;
+                    std::cout << "Error: Invalid input in the saved file :(" << std::endl;
                     return 1;
                 }
             }
-            game.MovePlayer(player, pos);
+            game.movePlayer();
         }
 
         // adding properties and improvements to the players
@@ -82,17 +84,17 @@ int main(int argc, char* argv[]) {
             ifs >> property_name >> owner_name >> improvments;
 
             if (owner_name != "BANK") {
-                for (auto p : game.players) {
-                    if (p.name == owner_name) 
-                    game.AddProperty(property_name, owner_name, improvements);
+                for (auto p : game.getPlayers()) {
+                    if (p.getName() == owner_name) {}
+                    // game.AddProperty(property_name, owner_name, improvements);
                 }
             }
         }
 
-        game.LoadGame();
+        // game.LoadGame();
 
     // Testing Mode (-testing)
-    } else if {agrv[1] == "-testing"}
+    } else if (strcmp(argv[1],"-testing")) {}
 
     // New game is created
     else {
@@ -116,11 +118,11 @@ int main(int argc, char* argv[]) {
             cout << "Enter a single character to represent Player " << i << ": ";
             cin >> character;
 
-            Player player = {name, character, 0, DEFAULT_MONEY, OSAP}; // Default starting values
+            Player player = {name, character, 0, DEFAULT_MONEY, OSAP, game}; // Default starting values
             game.AddPlayer(player);
         }
 
         cout << "All players have been added. Starting the game!" << endl;
-        game.Start();
+        game.StartGame();
     }
 }

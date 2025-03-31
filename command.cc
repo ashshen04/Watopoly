@@ -23,7 +23,7 @@ void Command::readInput(istream &in){
             string property;
             string buy_or_sell;
             if (in >> property >> buy_or_sell) {
-                game.getCurrPlayer()->improve(string_to_property(property, buy_or_sell));
+                game.getCurrPlayer()->improve(string_to_property(property, game));
             } else {
                 cerr << "Error: cannot improved because of invalid input" << endl;
             }
@@ -40,7 +40,8 @@ void Command::readInput(istream &in){
             game.getCurrPlayer()->bankrupt(); // Access currPlayer through a public getter method
         } else if (command == "assets") {
             if (game.getCurrPlayer()->getPosition() != TUITION_POS) {
-                game.getCurrPlayer()->assets();
+                game.getCurrPlayer()->calculateAssets();
+                cout << "You have" << game.getCurrPlayer()->getAssets() << "assets." << endl;
             } else {
                 cerr << "Error: cannot open assets in Tuition!!! Make decision on your own" << endl;
             }

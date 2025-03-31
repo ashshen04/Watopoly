@@ -10,11 +10,11 @@
 #include "dice.h"
 
 class Gym : public Property {
-    static const double PURCHASE_COST = 150;
+    constexpr static const double PURCHASE_COST = 150;
     Dice dice;  // Add dice for fee calculation
 
 public:
-    Gym::Gym(const string name, int position,shared_ptr<Player> owner):
+    Gym(const string name, int position,shared_ptr<Player> owner):
         Property{name,position,owner}{};
     double getFee() override;
     double getPurchaseCost() override;

@@ -1,4 +1,5 @@
-#include "Board.h"
+#include "board.h"
+#include "academic.h"
 
 const int SquareLen=9;
 const int NumSquare=40;
@@ -11,7 +12,7 @@ map <int, string> academic = {
     {23, "EV2    "},{24, "EV3    "},{26, "PHYS   "},{27, "B1     "},
     {29, "B2     "},{31, "EIT    "},{32, "ESC    "},{34, "C2     "},
     {37, "MC     "},{39, "DC     "}
-}；
+};
 
 // map that stores the information of all twoLine buildings
 const map <int, vector<string>> twoLine = {
@@ -55,15 +56,15 @@ Board::Board() {
       			board[i][6] = " ------- ";
     		} else if (twoLine.count(i) == 1) {
       			board[i][0] = " ------- ";
-      			board[i][1] = "|" + twoLine[i][0] + "|";
-      			board[i][2] = "|" + twoLine[i][1] + "|";
+      			board[i][1] = "|" + twoLine.at(i)[0] + "|";
+      			board[i][2] = "|" + twoLine.at(i)[1] + "|";
       			board[i][3] = "|       |";
       			board[i][4] = "|       |";
       			board[i][5] = "|       |";
       			board[i][6] = " ------- ";
     		} else {
       			board[i][0] = " ------- ";
-      			board[i][1] = "|" + other[i] + "|";
+      			board[i][1] = "|" + other.at(i) + "|";
       			board[i][2] = "|       |";
       			board[i][3] = "|       |";
       			board[i][4] = "|       |";
@@ -77,7 +78,7 @@ Board::Board() {
 
 void Board::updateImprovement(shared_ptr<Academic> academic) {
   // gets the current improvement number
-  int improvementNumber = academic->getImprovement();
+  int improvementNumber = academic->getImproveNum();
   // gets the position of the building
   int position = academic->getPosition();
   // sets the old string to empty

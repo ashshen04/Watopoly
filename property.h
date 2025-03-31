@@ -1,16 +1,17 @@
 #ifndef PROPERTY_H
 #define PROPERTY_H
-#include "square.h"
-#include "player.h"
-using namespace std;
 
+#include "square.h" 
+#include "player.h"
 #include <vector>
 #include <string>
 #include <memory>
 #include <iostream>
+using namespace std;
 
+class Player;
 
-class Property:public Square{
+class Property : public Square {
     protected:
         string name;
         int improveNum; //improveNum=-1 if it is mortaged
@@ -34,7 +35,7 @@ class Property:public Square{
 
         void setOwner(shared_ptr<Player> owner);
         void auction();
-        void action(Player&p) override;
+        void action(Player&p);
         void mortgage();
         void unmortgage();
 

@@ -6,10 +6,10 @@
 using namespace std;
 
 
-class OSAP : public NonProperty {
+class OSAP_type : public NonProperty {
     const int AMOUNT_ADDED = 200;
     public:
-        OSAP(string name, int pos);
+        OSAP_type(string name, int pos);
         void action(Player& p) override;
 };
 

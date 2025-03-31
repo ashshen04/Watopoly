@@ -19,6 +19,7 @@ class Game {
     vector<shared_ptr<Player>> currPlayer;
     vector<shared_ptr<Property>> properties;
     Dice * dice;
+    vector<shared_ptr<Square>> squares;
     Board * board;
 
     public:
@@ -39,6 +40,7 @@ class Game {
     void all(); // outputing 
     shared_ptr<Player> findPlayer(string name);
     void removePlayer(shared_ptr<Player> player);
+    void setSquares(vector<shared_ptr<Square>> s){ squares = s;};
 
 };
 

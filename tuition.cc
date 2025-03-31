@@ -13,15 +13,18 @@ void Tuition::action(Player& p) {
     cout << "Option2: 10%% of your total worth" << endl;
 
     string in;
-    cin >> in;
-    if (in == "Option1") {
-        p.SubMoney(const_tuition);
-        cout << "You have paid $300 tuition as your tuition" << endl;
-    } else if (in == "Option2") {
-        int percentage_tuition = static_cast<int> (p.getAssets() * 0.1);
-        p.SubMoney(percentage_tuition);
-        cout << "You have paid 10%% of your total worth as your tuition" << endl;
-    } else {
-        cout << "Error: Invalid input. Please re-enter Option1 or Option2" << endl;
+    while (cin >> in) {
+        if (in == "Option1") {
+            p.SubMoney(const_tuition);
+            cout << "You have paid $300 tuition as your tuition" << endl;
+            break;
+        } else if (in == "Option2") {
+            int percentage_tuition = static_cast<int> (p.getAssets() * 0.1);
+            p.SubMoney(percentage_tuition);
+            cout << "You have paid 10%" << "of your total worth as your tuition" << endl;
+            break;
+        } else {
+            cout << "Error: Invalid input. Please re-enter Option1 or Option2" << endl;
+        }
     }
 }

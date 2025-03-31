@@ -14,6 +14,7 @@ void Command::readInput(istream &in){
     bool rolled = false;
     string command;
 
+    cout << "It is " << game.getCurrPlayer()->getName() << "'s Turn!" << endl;
     while (in >> command) {
         if (command == "roll") {
             if (rolled == false) {
@@ -24,6 +25,7 @@ void Command::readInput(istream &in){
             }  
         } else if (command == "next") {
             game.nextPlayer();
+            cout << "It is " << game.getCurrPlayer()->getName() << "'s Turn!" << endl;
             rolled = false;
         } else if (command == "trade") {
             game.trade(); 

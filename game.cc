@@ -119,8 +119,9 @@ void Game::movePlayer() {
 
     int tmp = player->getPosition();
     player->move(roll); // action is called in move()
-    board->updatePlayer(tmp, tmp+roll, player->getChar());
+    board->updatePlayer(tmp, player->getPosition(), player->getChar());
     board->drawBoard(cout);
+    squares[player->getPosition()]->action(*player);
     
     while (doubled && doubleCount < 3) {
         ++doubleCount;

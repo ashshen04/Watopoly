@@ -35,65 +35,70 @@ int main(int argc, char* argv[]) {
     int player_num;
     Game game;
     
-    // Loading previous game (-load file)
-    if (strcmp(argv[1], "-load") && argc == 3) {
-        string game_file;
-        game_file = argv[2];
-        ifstream ifs{game_file};
+    // Check if there are enough arguments before accessing argv[1]
+    if (argc > 1) {
+        // Loading previous game (-load file)
+        if (strcmp(argv[1], "-load") == 0 && argc == 3) {
+            string game_file;
+            game_file = argv[2];
+            ifstream ifs{game_file};
 
-        if (!ifs) {
-            cout << "Error: Could not open file " << game_file << endl;
-            return 1;
-        } 
+            if (!ifs) {
+                cout << "Error: Could not open file " << game_file << endl;
+                return 1;
+            } 
 
-        cout << "Loading Previous Saved Game from " << game_file << endl;
+            cout << "Loading Previous Saved Game from " << game_file << endl;
 
-        // start to read through input file
-        ifs >> player_num;
-        
-        // adding and moving all players
-        for (int i = 1; i <= player_num; ++i) {
-            string name;
-            char character;
-            int timscups;
-            double money;
-            int pos;
-            int num_in_tims = 0;
+            // start to read through input file
+            ifs >> player_num;
+            
+            // adding and moving all players
+            for (int i = 1; i <= player_num; ++i) {
+                string name;
+                char character;
+                int timscups;
+                double money;
+                int pos;
+                int num_in_tims = 0;
 
-            ifs >> name >> character >> timscups >> money >> pos;
+                ifs >> name >> character >> timscups >> money >> pos;
 
-            game.AddPlayer(name,character, timscups, money, pos);
+                game.AddPlayer(name,character, timscups, money, pos);
 
-            if (pos == 10) {
-                ifs >> num_in_tims;
-                if (num_in_tims > MAX_num_in_tims) {
-                    std::cout << "Error: Invalid input in the saved file :(" << std::endl;
-                    return 1;
+                if (pos == 10) {
+                    ifs >> num_in_tims;
+                    if (num_in_tims > MAX_num_in_tims) {
+                        std::cout << "Error: Invalid input in the saved file :(" << std::endl;
+                        return 1;
+                    }
+                }
+                game.movePlayer();
+            }
+
+            // adding properties and improvements to the players
+            for (int i = 1; i <= BUILDING_NUM; ++i) {
+                string property_name;
+                string owner_name;
+                int improvments;
+
+                ifs >> property_name >> owner_name >> improvments;
+
+                if (owner_name != "BANK") {
+                    for (auto p : game.getPlayers()) {
+                        if (p->getName() == owner_name) {}
+                        // game.AddProperty(property_name, owner_name, improvements);
+                    }
                 }
             }
-            game.movePlayer();
+
+            // game.LoadGame();
+
+        // Testing Mode (-testing)
+        } else if (strcmp(argv[1],"-testing") == 0) {
+            // Implement testing mode logic here
         }
-
-        // adding properties and improvements to the players
-        for (int i = 1; i <= BUILDING_NUM; ++i) {
-            string property_name;
-            string owner_name;
-            int improvments;
-
-            ifs >> property_name >> owner_name >> improvments;
-
-            if (owner_name != "BANK") {
-                for (auto p : game.getPlayers()) {
-                    if (p->getName() == owner_name) {}
-                    // game.AddProperty(property_name, owner_name, improvements);
-                }
-            }
-        }
-
-        // game.LoadGame();
-
-    // Testing Mode (-testing)
-    } else if (strcmp(argv[1],"-testing")) {}
+    }
 
     // New game is created
     else {

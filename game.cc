@@ -8,6 +8,7 @@
 #include "game.h"
 #include "player.h"
 #include "property.h"
+#include "utils.h"
 using namespace std;
 
 Game::Game() {

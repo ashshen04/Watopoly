@@ -1,4 +1,5 @@
 #include "command.h"
+#include "utils.h"
 #include "board.h"
 #include "game.h"
 #include "const.h"

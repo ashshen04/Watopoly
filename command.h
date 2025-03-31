@@ -10,7 +10,7 @@ class Command {
 
     public:
         Command(Game& game);
-        void readInput(istream& in);
+        void readInput(istream& in, bool testing);
 };
 
 #endif

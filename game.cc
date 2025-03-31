@@ -59,7 +59,7 @@ void Game::AddProperty(string property_name, string owner, int improvements) {
     }
 
     property->setOwner(owner_ptr);
-    owner_ptr->addProperty(property.get());
+    owner_ptr->addProperty(property);
 
     if (improvements > 0) {
         for (int i = 0; i < improvements; ++i) {
@@ -149,14 +149,73 @@ void Game::movePlayer() {
             doubled = dice->isDouble();
             tmp = player->getPosition();
             player->move(roll); 
-            board->updatePlayer(tmp, tmp+roll, player->getChar());
+            board->updatePlayer(tmp, player->getPosition(), player->getChar());
             board->drawBoard(cout);
+            squares[player->getPosition()]->action(*player);
         } else {
             cout << "Error: Invalid command. Please enter 'roll'!" << endl;
         }
     }
     
 }
+
+void Game::movePlayer_test() {
+    if (currPlayer.empty()) return;
+
+    int d1, d2;
+    cin >> d1 >> d2;
+
+    int roll = dice->testroll(d1, d2);
+    bool doubled = dice->isDouble();
+    int doubleCount = 0;
+    int total = 0;
+    shared_ptr<Player> player = getCurrPlayer();
+
+    int tmp = player->getPosition();
+    player->move(roll); // action is called in move()
+    board->updatePlayer(tmp, player->getPosition(), player->getChar());
+    board->drawBoard(cout);
+    squares[player->getPosition()]->action(*player);
+    
+    while (doubled && doubleCount < 3) {
+        ++doubleCount;
+        cout << doubleCount << " times rolled Double" << endl;
+        
+        if (doubleCount == 3) {
+            tmp = player->getPosition();
+            player->changeinTims(true);
+            player->moveto(TIMSLINE_POS);
+            board->updatePlayer(tmp, TIMSLINE_POS, player->getChar());
+            board->drawBoard(cout);
+            cout << player->getName() << "rolled three times double. Sent to DC Tims Line" << endl;
+            return;
+        }
+
+        cout << "You have rolled DOUBLE. Roll Again!!" << endl;
+
+        string command;
+        cin >> command;
+        if (command == "roll") {
+            cin >> d1 >> d2;
+            roll = dice->testroll(d1,d2);
+            doubled = dice->isDouble();
+            tmp = player->getPosition();
+            player->move(roll); 
+            board->updatePlayer(tmp, player->getPosition(), player->getChar());
+            board->drawBoard(cout);
+            squares[player->getPosition()]->action(*player);
+        } else {
+            cout << "Error: Invalid command. Please enter 'roll'!" << endl;
+        }
+    }
+    
+}
+bool stringToDouble(const std::string& s, double& result) {
+    std::istringstream iss(s);
+    iss >> result;
+    return (iss && (iss >> std::ws).eof());
+}
+
 
 void Game::trade() { 
     string playerName, give, receive;
@@ -165,45 +224,64 @@ void Game::trade() {
 
     shared_ptr<Player> otherPlayer = findPlayer(playerName);
     if (!otherPlayer) {
-        cout << "Player " << playerName << " not found." << endl;
+        cout << "Error: Player " << playerName << " not found." << endl;
         return;
     }
 
     cout << "Enter what you want to give: ";
     cin >> give;
+    if (give.empty()) {
+        cout << "Error: Invalid input for 'give'." << endl;
+        return;
+    }
+
     cout << "Enter what you want to receive: ";
     cin >> receive;
+    if (receive.empty()) {
+        cout << "Error: Invalid input for 'receive'." << endl;
+        return;
+    }
 
     double giveValue, receiveValue;
     shared_ptr<Property> giveProperty = nullptr;
     shared_ptr<Property> receiveProperty = nullptr;
 
-    stringstream sgive(give), srece(receive);
-    if (sgive >> giveValue && sgive.eof()) {
+    if (stringToDouble(give, giveValue)) {
+        if (stringToDouble(receive, receiveValue)) {
+            cout << "You cannot trade money for money." << endl;
+            return;
+        } else {
+            receiveProperty = string_to_property(receive, *this);
+            if (!receiveProperty) {
+                cout << "Error: Property " << receive << " not found." << endl;
+                return;
+            }
+            getCurrPlayer()->trade(otherPlayer, giveValue, receiveProperty);
+        }
+    } else if (stringToDouble(receive, receiveValue)) {
         giveProperty = string_to_property(give, *this);
-        if(giveProperty && (giveProperty->isMortgaged()|| giveProperty->getImproveNum()!=0)) {
-            cout << "You cannot trade a mortgaged property or a property with improvements." << endl;
+        if (!giveProperty) {
+            cout << "Error: Property " << give << " not found." << endl;
             return;
         }
-    }
-    if (srece >> receiveValue && srece.eof()) {
-        receiveProperty = string_to_property(receive, *this);
-        if(receiveProperty && (receiveProperty->isMortgaged()|| receiveProperty->getImproveNum()!=0)) {
-            cout << "You cannot trade a mortgaged property or a property with improvements." << endl;
+        if (giveProperty->getOwner() != getCurrPlayer()) {
+            cout << "Error: You do not own the property " << give << "." << endl;
             return;
         }
-    }
-
-    if(giveProperty && receiveProperty){
-        getCurrPlayer()->trade(otherPlayer, giveProperty, receiveProperty);
-    } else if(giveProperty) {
         getCurrPlayer()->trade(otherPlayer, giveProperty, receiveValue);
-    } else if(receiveProperty) {
-        getCurrPlayer()->trade(otherPlayer, giveValue, receiveProperty);
     } else {
-        cout << "Invalid trade input. You can't trade money for money" << endl;
+        giveProperty = string_to_property(give, *this);
+        receiveProperty = string_to_property(receive, *this);
+        if (!giveProperty || !receiveProperty) {
+            cout << "Error: Invalid trade input." << endl;
+            return;
+        }
+        if (giveProperty->getOwner() != getCurrPlayer()) {
+            cout << "Error: You do not own the property " << give << "." << endl;
+            return;
+        }
+        getCurrPlayer()->trade(otherPlayer, giveProperty, receiveProperty);
     }
-    
 }
 
 void Game::all() {

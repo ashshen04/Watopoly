@@ -55,8 +55,8 @@ class Player : public Subject, public std::enable_shared_from_this<Player> {
     bool trade(shared_ptr<Player> other, shared_ptr<Property> give, shared_ptr<Property> receive);
     bool trade(shared_ptr<Player> other, shared_ptr<Property> give, int receive);
     
-    void addProperty(Property *property);
-    void removeProperty(Property *property);
+    void addProperty(shared_ptr<Property> property);
+    void removeProperty(shared_ptr<Property> property);
 
     void AddMoney(double added);
     void SubMoney(double subed);

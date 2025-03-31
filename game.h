@@ -43,6 +43,7 @@ class Game {
     void removePlayer(shared_ptr<Player> player);
     void setSquares(vector<shared_ptr<Square>> s){ squares = s;};
     void setProperties (vector<shared_ptr<Property>> s){ properties = s;};
+    void movePlayer_test();
     
 
 };

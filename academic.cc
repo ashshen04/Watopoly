@@ -40,7 +40,6 @@ double Academic::getFee() {
 }
 
 double Academic::getPurchaseCost() {
-    cout<<"Price for academic" << name<<" is: "<<purchaseCost << endl;
     return purchaseCost;
 }
 

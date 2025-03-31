@@ -2,6 +2,7 @@
 #include "gym.h"       
 #include "residence.h" 
 #include "academic.h"  
+#include <memory>
 using namespace std;
 
 // Property constructor implementation
@@ -24,17 +25,17 @@ void Property::action(Player& p) {
             //auction();
             return;
         } else {
-            cout << "You have " << p.getMoney() << "cash and "<<p.getAssets() <<". Would you like to buy it? (y)" << endl;
+            cout << "You have " << p.getMoney() << " cash. Would you like to buy it? (y / n)" << endl;
             char choice;
             cin >> choice;
             if (choice == 'y') {
                 p.SubMoney(price);
                 setOwner(make_shared<Player>(p));
-                p.addProperty(this);
+                p.addProperty(shared_from_this());
                 cout << "Congraulation! You have brought "<<name << endl;
-                if (dynamic_cast<Gym*>(this)) {
+                if (dynamic_pointer_cast<Gym>(shared_from_this())) {
                     p.GymNums++;
-                } else if (dynamic_cast<Residence*>(this)) {
+                } else if (dynamic_pointer_cast<Residence>(shared_from_this())) {
                     p.ResNums++;
                 } 
                 return;

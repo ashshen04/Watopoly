@@ -11,7 +11,7 @@ using namespace std;
 
 class Player;
 
-class Property : public Square {
+class Property : public Square, public enable_shared_from_this<Property>  {
     protected:
         int improveNum; //improveNum=-1 if it is mortaged
         double improveTotal;

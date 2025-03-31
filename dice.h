@@ -7,6 +7,7 @@ class Dice {
 
     public:
         int roll();
+        int testroll(int d1, int d2);
         bool isDouble();
 };
 

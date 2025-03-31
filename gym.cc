@@ -5,7 +5,6 @@ using namespace std;
 
 
 double Gym::getPurchaseCost() {
-    cout<<"Price for gym" << name<<" is: "<<PURCHASE_COST << endl;
     return PURCHASE_COST;
 }
 

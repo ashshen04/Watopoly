@@ -4,7 +4,6 @@ using namespace std;
 
 
 double Residence::getPurchaseCost() {
-    cout<<"Price for residence " << name<<" is: "<<PURCHASE_COST << endl;
     return PURCHASE_COST;
 }
 

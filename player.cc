@@ -57,9 +57,10 @@ bool Player::trade(shared_ptr<Player> other, int give, shared_ptr<Property> rece
     cin >> ans;
     if (ans == 'y') {
         SubMoney(give);
-        addProperty(receive.get());
+        addProperty(receive);
+        
         other->AddMoney(give);
-        other->removeProperty(receive.get());
+        other->removeProperty(receive);
         cout << "Trade successful!" << endl;
         calculateAssets();
         other->calculateAssets();
@@ -78,10 +79,10 @@ bool Player::trade(shared_ptr<Player> other, shared_ptr<Property> give, shared_p
     char ans;
     cin >> ans;
     if (ans == 'y') {
-        removeProperty(give.get());
-        addProperty(receive.get());
-        other->addProperty(give.get());
-        other->removeProperty(receive.get());
+        removeProperty(give);
+        addProperty(receive);
+        other->addProperty(give);
+        other->removeProperty(receive);
         cout << "Trade successful!" << endl;
         calculateAssets();
         other->calculateAssets();
@@ -99,10 +100,10 @@ bool Player::trade(shared_ptr<Player> other, shared_ptr<Property> give, int rece
     char ans;
     cin >> ans;
     if (ans == 'y') {
-        removeProperty(give.get());
+        removeProperty(give);
         AddMoney(receive);
         other->SubMoney(receive);
-        other->addProperty(give.get());
+        other->addProperty(give);
         cout << "Trade successful!" << endl;
         calculateAssets();
         other->calculateAssets();
@@ -114,31 +115,34 @@ bool Player::trade(shared_ptr<Player> other, shared_ptr<Property> give, int rece
 }
 
 
-void Player::addProperty(Property *property) {
-    properties.push_back(shared_ptr<Property>(property));
-    if (dynamic_cast<Gym*>(property)) {
+void Player::addProperty(shared_ptr<Property> property) {
+    properties.push_back(property);
+    if (dynamic_pointer_cast<Gym>(property)) {
         GymNums++;
-    } else if (dynamic_cast<Residence*>(property)) {
+    } else if (dynamic_pointer_cast<Residence>(property)) {
         ResNums--;
     } 
-    calculateAssets();
+    property->setOwner(shared_from_this());
 }
 
-void Player::removeProperty(Property *property) {
+void Player::removeProperty(shared_ptr<Property> property) {
     for (auto it = properties.begin(); it != properties.end(); ++it) {
-        if (it->get() == property) {
-            properties.erase(it);
-            if (dynamic_cast<Gym*>(it->get())) {
+        if (*it == property) {
+            if (dynamic_pointer_cast<Gym>(property)) {
                 GymNums--;
-            } else if (dynamic_cast<Residence*>(it->get())) {
+            } else if (dynamic_pointer_cast<Residence>(property)) {
                 ResNums--;
-            } 
-            calculateAssets();
+            }
+            property->setOwner(nullptr);
+            properties.erase(it);
             return;
         }
     }
     cout << "Property not found." << endl;
+
 }
+
+
 
 void Player::AddMoney(double added) {money += added;}
 void Player::SubMoney(double subed) {

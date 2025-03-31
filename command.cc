@@ -10,19 +10,28 @@ using namespace std;
 
 Command::Command(Game& game): game{game} {}
 
-void Command::readInput(istream &in){
+void Command::readInput(istream &in, bool testing){
     bool rolled = false;
     string command;
 
     cout << "It is " << game.getCurrPlayer()->getName() << "'s Turn!" << endl;
     while (in >> command) {
         if (command == "roll") {
-            if (rolled == false) {
-                game.movePlayer();
-                rolled = true;
+            if (testing) {
+                if (rolled == false) {
+                    game.movePlayer_test();
+                    rolled = true;
+                } else {
+                    cerr << "You have rolled before. Make other actions or pass to next player!" << endl;
+                }
             } else {
-                cerr << "You have rolled before. Make other actions or pass to next player!" << endl;
-            }  
+            if (rolled == false) {
+                    game.movePlayer();
+                    rolled = true;
+                } else {
+                    cerr << "You have rolled before. Make other actions or pass to next player!" << endl;
+                }
+            }
         } else if (command == "next") {
             game.nextPlayer();
             cout << "It is " << game.getCurrPlayer()->getName() << "'s Turn!" << endl;
@@ -37,7 +46,7 @@ void Command::readInput(istream &in){
             } else {
                 cerr << "Error: cannot improved because of invalid input" << endl;
             }
-        } else if (command == "mortage") {
+        } else if (command == "mortgage") {
             string property_name;
             in >> property_name;
             shared_ptr<Property> property = string_to_property(property_name, game);
@@ -88,6 +97,8 @@ void Command::readInput(istream &in){
             }
         } else if (command == "q") {
             break;
+        } else if (command == "cash") {
+            cout << "You have $" << game.getCurrPlayer()->getMoney() << " cash" << endl;
         } else {
             cerr << "Error: Invalid input. Re-enter" << endl;
         }

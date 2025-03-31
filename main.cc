@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     const int MORTAGE_IMPROVEMENT = -1; // building only
     const int MAX_TIMS_CUP_ALLOWED = 4;
     const int BUILDING_NUM = 22 + 4 + 2;
-    const int DEFAULT_MONEY = 1500;
+    const int DEFAULT_MONEY = 200;
 
     int player_num;
     Game game;
@@ -148,7 +148,7 @@ int main(int argc, char* argv[]) {
                         return 1;
                     }
                 }
-                command.readInput(cin);
+                command.readInput(cin, false);
             }
 
             // adding properties and improvements to the players
@@ -169,7 +169,32 @@ int main(int argc, char* argv[]) {
 
         // Testing Mode (-testing)
         } else if (strcmp(argv[1],"-testing") == 0) {
-            // Implement testing mode logic here
+            cout << "New Game is Created!" << endl;
+        cout << "Start Inputting Player Information:" << endl;
+        cout << "Enter the number of players (between " << MIN_PLAYER << " and " << MAX_PLAYER << "): ";
+        cin >> player_num;
+
+        // deal with invalid input
+        while (player_num < MIN_PLAYER || player_num > MAX_PLAYER) {
+            cout << "Invalid number of players. Please enter a number between " << MIN_PLAYER << " and " << MAX_PLAYER << ": ";
+            cin >> player_num;
+        }
+
+        // valid inputs, now add players
+        for (int i = 1; i <= player_num; ++i) {
+            string name;
+            char character;
+            cout << "Enter name for Player " << i << ": ";
+            cin >> name;
+            cout << "Enter a single character to represent Player " << i << ": ";
+            cin >> character;
+
+            game.AddPlayer(name, character, 0, DEFAULT_MONEY, OSAP_POS);
+        }
+
+        cout << "All players have been added. Starting the game!" << endl;
+        game.StartGame();
+        command.readInput(cin, true);
         }
     }
 
@@ -200,6 +225,6 @@ int main(int argc, char* argv[]) {
 
         cout << "All players have been added. Starting the game!" << endl;
         game.StartGame();
-        command.readInput(cin);
+        command.readInput(cin, false);
     }
 }

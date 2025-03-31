@@ -38,7 +38,7 @@ class Property : public Square, public enable_shared_from_this<Property>  {
         virtual double getFee()=0;
         virtual double getPurchaseCost()=0;
 
-        virtual void buyImprove() {
+        virtual double buyImprove() {
             throw std::logic_error("Improvements are not supported for this property.");
         }
         virtual void sellImprove(int num) {
@@ -47,3 +47,4 @@ class Property : public Square, public enable_shared_from_this<Property>  {
 };
 
 #endif
+

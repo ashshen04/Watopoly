@@ -28,3 +28,4 @@ void Tuition::action(Player& p) {
         }
     }
 }
+

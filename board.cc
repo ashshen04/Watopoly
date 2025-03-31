@@ -76,13 +76,14 @@ Board::Board() {
 }
 
 
-void Board::notify(int position, int improveNum) {
+void Board::notify(int position, int improveNum, int oldP, int newP, char player) {
 	string temp = "|       |";
 	for (int i = 0; i < improveNum; i++) {
 	  temp[i + 1] = 'I';
 	}
 	board[position][1] = temp;
-  }
+	updatePlayer(oldP, newP, player);
+}
 
 void Board::updatePlayer(int oldPosition, int newPosition, char player) {
 	// for initial representation of players' position

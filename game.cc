@@ -41,8 +41,11 @@ vector<shared_ptr<Property>> Game::getProperties() {
 }
 
 void Game::AddPlayer(string name, char character, int timscup, double money, int position) {
-    players.emplace_back(make_shared<Player>(name, character, timscup, money, position, *this));
-    currPlayer.emplace_back(make_shared<Player>(name, character, timscup, money, position, *this));
+    shared_ptr<Player> ptr = make_shared<Player>(name, character, timscup, money, position, *this);
+    players.emplace_back(ptr);
+    currPlayer.emplace_back(ptr);
+    ptr->attach(board);
+    
 }
 
 void Game::AddProperty(string property_name, string owner, int improvements) {
@@ -122,7 +125,6 @@ void Game::movePlayer() {
 
     int tmp = player->getPosition();
     player->move(roll); // action is called in move()
-    board->updatePlayer(tmp, player->getPosition(), player->getChar());
     board->drawBoard(cout);
     squares[player->getPosition()]->action(*player);
     
@@ -134,26 +136,26 @@ void Game::movePlayer() {
             tmp = player->getPosition();
             player->changeinTims(true);
             player->moveto(TIMSLINE_POS);
-            board->updatePlayer(tmp, TIMSLINE_POS, player->getChar());
             board->drawBoard(cout);
-            cout << player->getName() << "rolled three times double. Sent to DC Tims Line" << endl;
+            cout << player->getName() << " rolled three times double. Sent to DC Tims Line" << endl;
             return;
         }
 
         cout << "You have rolled DOUBLE. Roll Again!!" << endl;
 
         string command;
-        cin >> command;
-        if (command == "roll") {
-            roll = dice->roll();
-            doubled = dice->isDouble();
-            tmp = player->getPosition();
-            player->move(roll); 
-            board->updatePlayer(tmp, player->getPosition(), player->getChar());
-            board->drawBoard(cout);
-            squares[player->getPosition()]->action(*player);
-        } else {
-            cout << "Error: Invalid command. Please enter 'roll'!" << endl;
+        while(cin >> command) {
+            if (command == "roll") {
+                roll = dice->roll();
+                doubled = dice->isDouble();
+                tmp = player->getPosition();
+                player->move(roll); 
+                board->drawBoard(cout);
+                squares[player->getPosition()]->action(*player);
+                break;
+            } else {
+                cout << "Error: Invalid command. Please enter 'roll'!" << endl;
+            }
         }
     }
     
@@ -173,7 +175,6 @@ void Game::movePlayer_test() {
 
     int tmp = player->getPosition();
     player->move(roll); // action is called in move()
-    board->updatePlayer(tmp, player->getPosition(), player->getChar());
     board->drawBoard(cout);
     squares[player->getPosition()]->action(*player);
     
@@ -185,7 +186,6 @@ void Game::movePlayer_test() {
             tmp = player->getPosition();
             player->changeinTims(true);
             player->moveto(TIMSLINE_POS);
-            board->updatePlayer(tmp, TIMSLINE_POS, player->getChar());
             board->drawBoard(cout);
             cout << player->getName() << "rolled three times double. Sent to DC Tims Line" << endl;
             return;
@@ -201,7 +201,6 @@ void Game::movePlayer_test() {
             doubled = dice->isDouble();
             tmp = player->getPosition();
             player->move(roll); 
-            board->updatePlayer(tmp, player->getPosition(), player->getChar());
             board->drawBoard(cout);
             squares[player->getPosition()]->action(*player);
         } else {
@@ -286,8 +285,7 @@ void Game::trade() {
 
 void Game::all() {
     cout << "Display all players' assets" << endl;
-    for (auto& player : players) {
-        player->calculateAssets();
+    for (auto& player : currPlayer) {
         cout << player->getName() << ": " << player->getAssets() << endl;
     }
 }
@@ -321,4 +319,9 @@ void Game::removePlayer(shared_ptr<Player> player) {
         }
     }
     players = tempPlayers;
+    if (checkend()) cout << "The winner is " << getCurrPlayer()->getName() << "!! Congrats" << endl;
+}
+
+bool Game::checkend() {
+    return getPlayers().size() == 1;
 }

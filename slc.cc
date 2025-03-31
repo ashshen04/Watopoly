@@ -30,5 +30,5 @@ void SLC::action(Player& p) {
     }
 
     p.move(move);
-    cout << "Player" << p.getChar() << "moves" << move << "space(s)" << endl;
+    cout << "Player " << p.getChar() << " moves " << move << " space(s)" << endl;
 }

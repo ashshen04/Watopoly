@@ -74,8 +74,7 @@ void Command::readInput(istream &in, bool testing){
             game.getCurrPlayer()->bankrupt(); // Access currPlayer through a public getter method
         } else if (command == "assets") {
             if (game.getCurrPlayer()->getPosition() != TUITION_POS) {
-                game.getCurrPlayer()->calculateAssets();
-                cout << "You have $" << game.getCurrPlayer()->getAssets() << " assets." << endl;
+                cout << "Player " << game.getCurrPlayer()->getName() << "You have $" << game.getCurrPlayer()->getAssets() << " assets." << endl;
             } else {
                 cerr << "Error: cannot open assets in Tuition!!! Make decision on your own" << endl;
             }
@@ -102,6 +101,8 @@ void Command::readInput(istream &in, bool testing){
         } else {
             cerr << "Error: Invalid input. Re-enter" << endl;
         }
+
+        if (game.checkend()) break;
     }
 }
 

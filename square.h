@@ -17,7 +17,7 @@ class Square : public Observer {
         string getName() const;
         int getPosition() const;
         virtual void action(Player &p) = 0; 
-        void notify(int playpos, int temp) override;
+        void notify(int playpos, int temp, int a, int b, char c) override;
         virtual ~Square() = default;
 };
 

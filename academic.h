@@ -17,8 +17,7 @@ class Academic : public Property {
     double improveCost;
     vector<int> fee;
     int improveNum = 0;
-    MonopolyBlock *parentBlock = nullptr; // Pointer to the parent MonopolyBlock
-
+    MonopolyBlock *parentBlock = nullptr;
 public:
     Academic(const string name, int position, shared_ptr<Player> owner,
         int purchaseCost, int improveCost, const vector<int> &fee);
@@ -26,7 +25,7 @@ public:
 
     double getFee() override;
     double getPurchaseCost() override;
-    void buyImprove() override;
+    double buyImprove() override;
     void sellImprove(int i) override;
 
     ~Academic() override = default;

@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     const int MORTAGE_IMPROVEMENT = -1; // building only
     const int MAX_TIMS_CUP_ALLOWED = 4;
     const int BUILDING_NUM = 22 + 4 + 2;
-    const int DEFAULT_MONEY = 200;
+    const int DEFAULT_MONEY = 1500;
 
     int player_num;
     Game game;
@@ -101,6 +101,7 @@ int main(int argc, char* argv[]) {
     
     game.setSquares(sq);
 
+
     vector<shared_ptr<Property>> pro;
     for(auto & square : sq) {
         if (auto property = dynamic_pointer_cast<Property>(square)) {
@@ -140,6 +141,7 @@ int main(int argc, char* argv[]) {
                 ifs >> name >> character >> timscups >> money >> pos;
 
                 game.AddPlayer(name,character, timscups, money, pos);
+                
 
                 if (pos == 10) {
                     ifs >> num_in_tims;
@@ -148,7 +150,6 @@ int main(int argc, char* argv[]) {
                         return 1;
                     }
                 }
-                command.readInput(cin, false);
             }
 
             // adding properties and improvements to the players
@@ -161,11 +162,16 @@ int main(int argc, char* argv[]) {
 
                 if (owner_name != "BANK") {
                     for (auto p : game.getPlayers()) {
-                        if (p->getName() == owner_name) {}
+                        if (p->getName() == owner_name) {
                             game.AddProperty(property_name, owner_name, improvements);
+                        }
                     }
                 }
             }
+
+            game.StartGame();
+            command.readInput(cin, false);
+            game.EndGame();
 
         // Testing Mode (-testing)
         } else if (strcmp(argv[1],"-testing") == 0) {
@@ -195,6 +201,7 @@ int main(int argc, char* argv[]) {
         cout << "All players have been added. Starting the game!" << endl;
         game.StartGame();
         command.readInput(cin, true);
+        game.EndGame();
         }
     }
 
@@ -226,5 +233,6 @@ int main(int argc, char* argv[]) {
         cout << "All players have been added. Starting the game!" << endl;
         game.StartGame();
         command.readInput(cin, false);
+        game.EndGame();
     }
 }

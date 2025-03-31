@@ -23,10 +23,9 @@ class Subject {
             }
         }
 
-	    void notifyObservers(int position, int temp) {
+	    void notifyObservers(int position, int temp, int a, int b, char c) {
 		    for (auto &ob: observers) {
-                ob->notify(position, temp);
-                cout << "notified" << endl;
+                ob->notify(position, temp, a, b, c);
             }
         }
 

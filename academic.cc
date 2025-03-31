@@ -10,17 +10,16 @@ Academic::Academic(const string name, int position, shared_ptr<Player> owner,
     improveCost(improveCost),
     fee(fee) {}
 
-// Check if a single player owns all academics in the MonopolyBlock
+
 bool MonopolyBlock::isMonopolyOwnedBy(const shared_ptr<Player> &player) const {
     for (const auto &academic : academics) {
         if (academic->getOwner() != player) {
-            return false; // If any academic is not owned by the player, return false
+            return false;
         }
     }
-    return true; // All academics are owned by the player
+    return true;
 }
 
-// Get the fee for the Academic property
 double Academic::getFee() {
     if (isMortgaged()) {
         cout << name << " is mortgaged, you don't need to pay" << endl;
@@ -43,18 +42,18 @@ double Academic::getPurchaseCost() {
     return purchaseCost;
 }
 
-void Academic::buyImprove() {
+double Academic::buyImprove() {
     if (isMortgaged()) {
         cout << "You cannot improve " << getName() << " as it's mortgaged" << endl;
-        return;
+        return 0;
     }
     if (improveNum >= 5) {
         cout << "You cannot improve " << getName() << " as it is already at max level" << endl;
-        return;
+        return 0;
     }
     if (getOwner()->getMoney() < improveCost) {
         cout << "You do not have enough money to improve " << getName() << endl;
-        return;
+        return 0;
     }
     getOwner()->SubMoney(improveCost);
     getOwner()->playerImproveCost += improveCost;
@@ -62,6 +61,7 @@ void Academic::buyImprove() {
     improveTotal += improveCost;
 
     cout << "You have improved " << getName() << " to level " << improveNum << endl;
+    return improveCost;
 }
 
 void Academic::sellImprove(int i) {

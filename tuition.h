@@ -14,3 +14,4 @@ class Tuition : public NonProperty {
 };
 
 #endif
+

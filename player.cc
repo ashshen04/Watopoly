@@ -13,23 +13,24 @@
 using namespace std;
 
 Player::Player(string name, char character, int timscup, double money, int position, Game &game) 
-    : name{name}, character{character}, timsCups{timscup}, money{money}, position{position}, playerImproveCost{0},game(game) {}
-
-
-void Player::calculateAssets() {
-    int building_money = 0;
-    for (auto const & building : properties) {
-        building_money += building->getImproveTotal();
-        building_money += building->getPurchaseCost();
-        if (building->isMortgaged()) {
-            building_money -= building->getPurchaseCost() / 2;
-        }
+    : name{name}, character{character}, timsCups{timscup}, money{money}, position{position}, playerImproveCost{0},game(game) {
+        assets = money;
     }
-    assets = money + building_money;
-}
+
+
+// void Player::calculateAssets() {
+//     int building_money = 0;
+//     for (auto const & building : properties) {
+//         building_money += building->getImproveTotal();
+//         building_money += building->getPurchaseCost();
+//         if (building->isMortgaged()) {
+//             building_money -= building->getPurchaseCost() / 2;
+//         }
+//     }
+//     assets = money + building_money;
+// }
 
 double Player::getAssets() {
-    calculateAssets();
     return assets;
 };
 
@@ -38,11 +39,10 @@ void Player::improve(shared_ptr<Property> property) {
     if (property->getOwner()->getName() != name) {
         cout << "You do not own this property." << endl;
         return;
-    } if(dynamic_cast<Academic*>(property.get()) == nullptr) {
-        property->buyImprove();
+    } if(dynamic_pointer_cast<Academic>(property) == nullptr) {
+        assets += property->buyImprove();
         cout << "You have improved " << property->getName()<< endl;
-        calculateAssets();
-        notifyObservers(property->getPosition(), property->getImproveNum());
+        notifyObservers(property->getPosition(), property->getImproveNum(),0,0,0);
     } else {
         cout << "You cannot improve this property." << endl;
     }
@@ -62,8 +62,6 @@ bool Player::trade(shared_ptr<Player> other, int give, shared_ptr<Property> rece
         other->AddMoney(give);
         other->removeProperty(receive);
         cout << "Trade successful!" << endl;
-        calculateAssets();
-        other->calculateAssets();
         return true;
     } else {
         cout << "Trade cancelled." << endl;
@@ -84,8 +82,6 @@ bool Player::trade(shared_ptr<Player> other, shared_ptr<Property> give, shared_p
         other->addProperty(give);
         other->removeProperty(receive);
         cout << "Trade successful!" << endl;
-        calculateAssets();
-        other->calculateAssets();
         return true;
     } else {
         cout << "Trade cancelled." << endl;
@@ -105,8 +101,6 @@ bool Player::trade(shared_ptr<Player> other, shared_ptr<Property> give, int rece
         other->SubMoney(receive);
         other->addProperty(give);
         cout << "Trade successful!" << endl;
-        calculateAssets();
-        other->calculateAssets();
         return true;
     } else {
         cout << "Trade cancelled." << endl;
@@ -123,6 +117,7 @@ void Player::addProperty(shared_ptr<Property> property) {
         ResNums--;
     } 
     property->setOwner(shared_from_this());
+    assets+=property->getPurchaseCost();
 }
 
 void Player::removeProperty(shared_ptr<Property> property) {
@@ -135,6 +130,7 @@ void Player::removeProperty(shared_ptr<Property> property) {
             }
             property->setOwner(nullptr);
             properties.erase(it);
+            assets-=property->getPurchaseCost();
             return;
         }
     }
@@ -153,8 +149,11 @@ void Player::SubMoney(double subed) {
         cout<< "You do not have enough money, but you can use your assets to pay." << endl;
         cout<< "You can either sale improvement(s), get mortgaged your properties(m), or trade with others(t)" << endl;
         char ans;
-        cin >> ans;
         while(money < subed) {
+            int tmp = subed - money;
+            cout<<"Still need "<< tmp <<" to pay off your payable, choice you approach(s/m/t)"<<endl;
+            cin >> ans;
+
             if (ans == 's'){
                 if (playerImproveCost>0){
                     cout<< "Sell improvement(s) on your properties:" << endl;
@@ -197,13 +196,11 @@ void Player::SubMoney(double subed) {
                 cout<< "Invalid input, please try again." << endl;
             }
 
-            int tmp = subed - money;
-            cout<<"Still need "<< tmp <<" to pay off your payable, choice you approach(s/m/t)"<<endl;
-            cin >> ans;
+            
         }
 
     } else {
-        cout << "You are bankrupt! ^ ^" << endl;
+        cout << getName() << ": You are bankrupt! ^ ^" << endl;
         bankrupt();
     }
 }
@@ -297,8 +294,8 @@ double Player::bankrupt() {
 
 
 void Player::moveto(int pos) {
+    notifyObservers(0, 0, position,pos, this->getChar());
     position = pos;
-    notifyObservers(position, 0);
 }
 
 
@@ -308,8 +305,9 @@ void Player::move(int pos) {
         AddMoney(OSAP);
         cout << "Passed by OSAP!!! $200 is added for you!" << endl;
     }
+    int oldPosition = position;
     position = tmp % SQUARE_SIZE;
-    notifyObservers(position, 0);
+    notifyObservers(0, 0, oldPosition, position, getChar());
 }
 
 void Player::outofTims() {

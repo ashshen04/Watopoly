@@ -11,3 +11,4 @@ std::shared_ptr<Property> string_to_property(const std::string& name, Game& game
 std::shared_ptr<Player> string_to_player(const std::string& name, Game& game);
 
 #endif 
+

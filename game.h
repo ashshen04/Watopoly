@@ -45,6 +45,7 @@ class Game {
     void setProperties (vector<shared_ptr<Property>> s){ properties = s;};
     void movePlayer_test();
     
+    bool checkend();
 
 };
 

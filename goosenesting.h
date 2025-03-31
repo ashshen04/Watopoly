@@ -5,6 +5,8 @@
 #include "player.h"
 using namespace std;
 
+class Player;
+
 class GooseNesting : public NonProperty {
     public:
         GooseNesting(const string name, int pos);

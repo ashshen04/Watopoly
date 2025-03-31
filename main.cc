@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <cmath>
+#include <cstring>
 #include "game.h"
 #include "board.h"
 #include "player.h"

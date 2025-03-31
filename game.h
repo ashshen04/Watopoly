@@ -19,13 +19,13 @@ class Game {
     vector<shared_ptr<Player>> players;
     vector<shared_ptr<Player>> currPlayer;
     vector<shared_ptr<Property>> properties;
-    Dice * dice;
+    unique_ptr<Dice> dice;
     vector<shared_ptr<Square>> squares;
-    Board * board;
+    unique_ptr<Board> board;
 
     public:
     Game();
-    ~Game();
+    ~Game() = default;
 
     shared_ptr<Player> getCurrPlayer();
     vector<shared_ptr<Property>> getProperties();

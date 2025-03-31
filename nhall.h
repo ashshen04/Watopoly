@@ -6,6 +6,7 @@
 #include "rolluprimcup.h"
 using namespace std;
 
+class Player;
 
 class NHall : public NonProperty {
     RollUpRimCup* check;

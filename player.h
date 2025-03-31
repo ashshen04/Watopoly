@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 #include "subject.h"
 
 const int SQUARE_SIZE = 40;

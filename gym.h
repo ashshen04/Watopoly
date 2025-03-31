@@ -9,6 +9,9 @@
 #include "player.h"
 #include "dice.h"
 
+class Player;
+class Property;
+
 class Gym : public Property {
     constexpr static const double PURCHASE_COST = 150;
     Dice dice;  // Add dice for fee calculation

@@ -14,16 +14,10 @@
 #include "residence.h"
 using namespace std;
 
-Game::Game() {
-    dice = new Dice();
-    board = new Board();
-}
+class Player;
+class Property;
 
-Game::~Game() {
-    delete dice;
-    delete board;
-}
-
+Game::Game() : dice(std::make_unique<Dice>()), board(std::make_unique<Board>()) {}
 
 vector<shared_ptr<Player>> Game::getPlayers() {
     return players;
@@ -44,7 +38,7 @@ void Game::AddPlayer(string name, char character, int timscup, double money, int
     shared_ptr<Player> ptr = make_shared<Player>(name, character, timscup, money, position, *this);
     players.emplace_back(ptr);
     currPlayer.emplace_back(ptr);
-    ptr->attach(board);
+    ptr->attach(board.get());
     
 }
 

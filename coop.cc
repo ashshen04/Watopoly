@@ -1,4 +1,5 @@
 #include "coop.h"
+#include "player.h"
 
 Coop::Coop(string name, int pos) : NonProperty{name, pos} {}
 

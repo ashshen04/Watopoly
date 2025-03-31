@@ -5,7 +5,6 @@
 #include "nonproperty.h"
 using namespace std;
 
-
 class Coop : public NonProperty {
         const int COOP_FEE = 150;
     public:

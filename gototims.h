@@ -6,6 +6,8 @@
 #include "player.h"
 using namespace std;
 
+class Player;
+
 class GotoTims : public NonProperty {
     public:
         GotoTims(string name, int pos);

@@ -15,6 +15,7 @@ using namespace std;
 class Player;
 
 class Game {
+    public:
     vector<shared_ptr<Player>> players;
     vector<shared_ptr<Player>> currPlayer;
     vector<shared_ptr<Property>> properties;
@@ -41,6 +42,8 @@ class Game {
     shared_ptr<Player> findPlayer(string name);
     void removePlayer(shared_ptr<Player> player);
     void setSquares(vector<shared_ptr<Square>> s){ squares = s;};
+    void setProperties (vector<shared_ptr<Property>> s){ properties = s;};
+    
 
 };
 

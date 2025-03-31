@@ -5,7 +5,7 @@
 using namespace std;
 
 // Property constructor implementation
-Property::Property(const string name, int position, shared_ptr<Player> owner) : 
+Property::Property(const string name, int position, shared_ptr<Player> owner = nullptr) : 
     Square{name, position},
     improveNum(0), 
     mortgaged(false),

@@ -24,9 +24,9 @@ void NHall::action(Player& p) {
 
     if (random < 11) {
         p.SubMoney(abs_money_change);
-        cout << "Player " << p.getChar() << "loses $" << abs_money_change << endl;
+        cout << "Player " << p.getChar() << " loses $" << abs_money_change << endl;
     } else {
         p.AddMoney(abs_money_change);
-        cout << "Player " << p.getChar() << "gains $" << abs_money_change << endl;
+        cout << "Player " << p.getChar() << " gains $" << abs_money_change << endl;
     }
 }   

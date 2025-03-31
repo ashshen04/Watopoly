@@ -13,19 +13,15 @@ class Player;
 
 class Property : public Square {
     protected:
-        string name;
         int improveNum; //improveNum=-1 if it is mortaged
         double improveTotal;
         bool mortgaged;
         shared_ptr<Player> owner;
-        int position;
 
     public:
         Property(const string name, int position, shared_ptr<Player> owner);
         virtual ~Property() = default;
         
-        string getName() const { return name; };
-        int getPosition() const { return position; };
         int getImproveNum() { return improveNum; };
         bool isMortgaged() const { return mortgaged; };
         double getImproveTotal() { return improveTotal; };

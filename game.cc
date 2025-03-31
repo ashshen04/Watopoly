@@ -9,6 +9,9 @@
 #include "player.h"
 #include "property.h"
 #include "utils.h"
+#include "academic.h"
+#include "gym.h"
+#include "residence.h"
 using namespace std;
 
 Game::Game() {

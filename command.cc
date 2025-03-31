@@ -86,7 +86,7 @@ void Command::readInput(istream &in){
             } else {
                 cerr << "Error: Could not open file " << file_name << " for saving" << endl;
             }
-        } else if (command == "exit") {
+        } else if (command == "q") {
             break;
         } else {
             cerr << "Error: Invalid input. Re-enter" << endl;

@@ -8,6 +8,7 @@ using namespace std;
 class Player;
 
 class Square : public Observer {
+    protected:
     string name;
     int position;
 

@@ -101,6 +101,15 @@ int main(int argc, char* argv[]) {
     
     game.setSquares(sq);
 
+    vector<shared_ptr<Property>> pro;
+    for(auto & square : sq) {
+        if (auto property = dynamic_pointer_cast<Property>(square)) {
+            pro.emplace_back(property);
+        }
+    }
+
+    game.setProperties(pro);
+
     // Check if there are enough arguments before accessing argv[1]
     if (argc > 1) {
         // Loading previous game (-load file)

@@ -294,6 +294,7 @@ double Player::bankrupt() {
 
 void Player::moveto(int pos) {
     position = pos;
+    notifyObservers(position, 0);
 }
 
 

@@ -76,7 +76,6 @@ void TimsLine::leaveLine(Player &p, Dice &dice) {
         } else {
             cout << "Player " << p.getChar() << " does not have a Roll Up the Rim cup. Forced to pay $50." << endl;
             p.SubMoney(50);
-            if (&p == nullptr) return;
         }
     } else if (command != "1") {
         cout << "Invalid command. Player " << p.getChar() << " remains in the DC Tims Line." << endl;
@@ -85,8 +84,6 @@ void TimsLine::leaveLine(Player &p, Dice &dice) {
         p.SubMoney(50); // in this case if money is enough, the player pays $50 else it enter the situation of auction or mortgage.
         
     }
-
-    if (&p == nullptr) return;
 
     p.outofTims();
     int roll = dice.roll();

@@ -26,6 +26,7 @@ class Subject {
 	    void notifyObservers(int position, int temp) {
 		    for (auto &ob: observers) {
                 ob->notify(position, temp);
+                cout << "notified" << endl;
             }
         }
 

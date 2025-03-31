@@ -29,6 +29,7 @@ class Game {
     vector<shared_ptr<Property>> getProperties();
     vector<shared_ptr<Player>> getPlayers();
     void AddPlayer(string name, char character, int timscup, double money, int position);
+    void AddProperty(string property_name, string owner, int improvements);
     void StartGame();
     void EndGame();
     void SaveGame(ofstream &file);

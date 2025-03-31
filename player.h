@@ -37,7 +37,7 @@ class Player : public Subject, public std::enable_shared_from_this<Player> {
     double getMoney() const{ return money; };
     double getPosition() const{ return position; };
     int getTimsCup() const{return timsCups;};
-    double getAssets() const{return assets;};
+    double getAssets();
     void printAssets() const{
         cout << "You have " << assets << " in total assets." << endl;
     };

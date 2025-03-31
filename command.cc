@@ -11,13 +11,20 @@ using namespace std;
 Command::Command(Game& game): game{game} {}
 
 void Command::readInput(istream &in){
+    bool rolled = false;
     string command;
 
     while (in >> command) {
         if (command == "roll") {
-            game.movePlayer();
+            if (rolled == false) {
+                game.movePlayer();
+                rolled = true;
+            } else {
+                cerr << "You have rolled before. Make other actions or pass to next player!" << endl;
+            }  
         } else if (command == "next") {
             game.nextPlayer();
+            rolled = false;
         } else if (command == "trade") {
             game.trade(); 
         } else if (command == "improve") {
@@ -31,23 +38,42 @@ void Command::readInput(istream &in){
         } else if (command == "mortage") {
             string property_name;
             in >> property_name;
-            shared_ptr<Property> property_to_apply = string_to_property(property_name, game);
-            // not finished yet, return back to this after class of Mortage is implemented
+            shared_ptr<Property> property = string_to_property(property_name, game);
+            if (property) {
+                if(property->getOwner() == game.getCurrPlayer()) {
+                    property->mortgage();
+                } else {
+                    cerr << "Error: You do not own this property" << endl;
+                }
+            } else {
+                cerr << "Error: Property not found" << endl;
+            }
         } else if (command == "unmortgage") {
             string property_name;
             in >> property_name;
-            // same for this
+            shared_ptr<Property> property = string_to_property(property_name, game);
+            if (property) {
+                if(property->getOwner() == game.getCurrPlayer()) {
+                    property->unmortgage();
+                } else {
+                    cerr << "Error: You do not own this property" << endl;
+                }
+             } 
         } else if (command == "bankrupt") {
             game.getCurrPlayer()->bankrupt(); // Access currPlayer through a public getter method
         } else if (command == "assets") {
             if (game.getCurrPlayer()->getPosition() != TUITION_POS) {
                 game.getCurrPlayer()->calculateAssets();
-                cout << "You have" << game.getCurrPlayer()->getAssets() << "assets." << endl;
+                cout << "You have $" << game.getCurrPlayer()->getAssets() << " assets." << endl;
             } else {
                 cerr << "Error: cannot open assets in Tuition!!! Make decision on your own" << endl;
             }
         } else if (command == "all") {
-            game.all();
+            if (game.getCurrPlayer()->getPosition() == TUITION_POS) {
+                cerr <<  "Error: cannot open assets in Tuition!!! Make decision on your own" << endl;
+            } else {
+                game.all();
+            }
         } else if (command == "save"){
             cout << "Please enter the file that you would like to save this game: " << endl;
             string file_name;

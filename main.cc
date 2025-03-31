@@ -9,6 +9,7 @@
 #include "property.h"
 #include "nonproperty.h"
 #include "square.h"
+#include "command.h"
 using namespace std;
 
 class Player;
@@ -34,6 +35,7 @@ int main(int argc, char* argv[]) {
 
     int player_num;
     Game game;
+    Command command{game};
     
     // Check if there are enough arguments before accessing argv[1]
     if (argc > 1) {
@@ -73,26 +75,24 @@ int main(int argc, char* argv[]) {
                         return 1;
                     }
                 }
-                game.movePlayer();
+                command.readInput(cin);
             }
 
             // adding properties and improvements to the players
             for (int i = 1; i <= BUILDING_NUM; ++i) {
                 string property_name;
                 string owner_name;
-                int improvments;
+                int improvements;
 
-                ifs >> property_name >> owner_name >> improvments;
+                ifs >> property_name >> owner_name >> improvements;
 
                 if (owner_name != "BANK") {
                     for (auto p : game.getPlayers()) {
                         if (p->getName() == owner_name) {}
-                        // game.AddProperty(property_name, owner_name, improvements);
+                            game.AddProperty(property_name, owner_name, improvements);
                     }
                 }
             }
-
-            // game.LoadGame();
 
         // Testing Mode (-testing)
         } else if (strcmp(argv[1],"-testing") == 0) {
@@ -127,5 +127,6 @@ int main(int argc, char* argv[]) {
 
         cout << "All players have been added. Starting the game!" << endl;
         game.StartGame();
+        command.readInput(cin);
     }
 }

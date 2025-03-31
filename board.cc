@@ -1,5 +1,6 @@
 #include "board.h"
 #include "academic.h"
+#include "player.h"
 
 const int SquareLen=9;
 const int NumSquare=40;

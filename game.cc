@@ -39,6 +39,32 @@ vector<shared_ptr<Property>> Game::getProperties() {
 
 void Game::AddPlayer(string name, char character, int timscup, double money, int position) {
     players.emplace_back(make_shared<Player>(name, character, timscup, money, position, *this));
+    currPlayer.emplace_back(make_shared<Player>(name, character, timscup, money, position, *this));
+}
+
+void Game::AddProperty(string property_name, string owner, int improvements) {
+    shared_ptr<Property> property = string_to_property(property_name, *this);
+    if (!property) {
+        cout << "Error: Property " << property_name << " not found." << endl;
+        return;
+    }
+
+    shared_ptr<Player> owner_ptr = string_to_player(owner, *this);
+    if (!owner_ptr) {
+        cout << "Error: Player " << owner << " not found." << endl;
+        return;
+    }
+
+    property->setOwner(owner_ptr);
+    owner_ptr->addProperty(property.get());
+
+    if (improvements > 0) {
+        for (int i = 0; i < improvements; ++i) {
+            property->buyImprove();
+        }
+    }
+
+    cout << "Property " << property_name << " assigned to " << owner << " with " << improvements << " improvements." << endl;
 }
 
 void Game::StartGame() {
@@ -98,7 +124,7 @@ void Game::movePlayer() {
     
     while (doubled && doubleCount < 3) {
         ++doubleCount;
-        cout << doubleCount << "times rolled Double" << endl;
+        cout << doubleCount << " times rolled Double" << endl;
         
         if (doubleCount == 3) {
             tmp = player->getPosition();
@@ -110,12 +136,20 @@ void Game::movePlayer() {
             return;
         }
 
-        roll = dice->roll();
-        doubled = dice->isDouble();
-        tmp = player->getPosition();
-        player->move(roll); 
-        board->updatePlayer(tmp, tmp+roll, player->getChar());
-        board->drawBoard(cout);
+        cout << "You have rolled DOUBLE. Roll Again!!" << endl;
+
+        string command;
+        cin >> command;
+        if (command == "roll") {
+            roll = dice->roll();
+            doubled = dice->isDouble();
+            tmp = player->getPosition();
+            player->move(roll); 
+            board->updatePlayer(tmp, tmp+roll, player->getChar());
+            board->drawBoard(cout);
+        } else {
+            cout << "Error: Invalid command. Please enter 'roll'!" << endl;
+        }
     }
     
 }
@@ -171,6 +205,7 @@ void Game::trade() {
 void Game::all() {
     cout << "Display all players' assets" << endl;
     for (auto& player : players) {
+        player->calculateAssets();
         cout << player->getName() << ": " << player->getAssets() << endl;
     }
 }

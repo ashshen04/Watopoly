@@ -11,6 +11,7 @@ int Dice::roll() {
     srand(time(0)); // using current time for random generate
     dice1 = rand() % DICE_MAX + DICE_MIN;
     dice2 = rand() % DICE_MAX + DICE_MIN;
+    cout << "You rolled " << dice1 + dice2 << endl;
     return dice1 + dice2;
 }
 

@@ -28,6 +28,11 @@ void Player::calculateAssets() {
     assets = money + building_money;
 }
 
+double Player::getAssets() {
+    calculateAssets();
+    return assets;
+};
+
 
 void Player::improve(shared_ptr<Property> property) {
     if (property->getOwner()->getName() != name) {

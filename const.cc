@@ -1,4 +1,6 @@
 #include "const.h"
+using namespace std;
+
 shared_ptr<Property> string_to_property(string &name, Game& game) {
     for (auto &property : game.getProperties()) {
         if (property->getName() == name) {

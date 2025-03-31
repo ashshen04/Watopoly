@@ -65,7 +65,7 @@ void Academic::buyImprove() {
     cout << "You have improved " << getName() << " to level " << improveNum << endl;
 }
 
-void Academic::sellImprove() {
+void Academic::sellImprove(int i) {
     if (isMortgaged()) {
         cout << "You cannot sell improvement on " << getName() << " as it's mortgaged" << endl;
         return;
@@ -74,12 +74,12 @@ void Academic::sellImprove() {
         cout << "You cannot sell improvement on " << getName() << " as it is already at level 0" << endl;
         return;
     }
-    double moneyEarned = improveCost / 2;
+    double moneyEarned = improveCost*i / 2;
     getOwner()->AddMoney(moneyEarned);
     cout << "You have sold improvement on " << name << " for " << moneyEarned << endl;
-    improveNum--;
-    improveTotal -= improveCost;
-    getOwner()->playerImproveCost -= improveCost; 
+    improveNum-= i;
+    improveTotal -= improveCost*i;
+    getOwner()->playerImproveCost -= improveCost*2; 
 
     cout << name << " is now level " << improveNum << endl;
 

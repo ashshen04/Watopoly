@@ -20,6 +20,11 @@ Game::~Game() {
     delete board;
 }
 
+
+vector<shared_ptr<Player>> Game::getPlayers() {
+    return players;
+}
+
 shared_ptr<Player> Game::getCurrPlayer() {
     if (!currPlayer.empty()) {
         return currPlayer[0];
@@ -31,9 +36,8 @@ vector<shared_ptr<Property>> Game::getProperties() {
     return properties;
 }
 
-void Game::AddPlayer(Player& player) {
-    players.emplace_back(player);
-    // board adding players
+void Game::AddPlayer(string name, char character, int timscup, double money, int position) {
+    players.emplace_back(make_shared<Player>(name, character, timscup, money, position, *this));
 }
 
 void Game::StartGame() {
@@ -57,8 +61,8 @@ void Game::SaveGame(ofstream &file) {
     file << players.size() << endl;
 
     for (auto & player : players) {
-        file << player.getName() << " " << player.getChar() << " " 
-             << player.getMoney() << " " << player.getPosition() << endl;
+        file << player->getName() << " " << player->getChar() << " " 
+             << player->getMoney() << " " << player->getPosition() << endl;
     }
 
     for (auto & property : properties) {
@@ -166,7 +170,7 @@ void Game::trade() {
 void Game::all() {
     cout << "Display all players' assets" << endl;
     for (auto& player : players) {
-        cout << player.getName() << ": " << player.getAssets() << endl;
+        cout << player->getName() << ": " << player->getAssets() << endl;
     }
 }
 
@@ -177,4 +181,26 @@ shared_ptr<Player> Game::findPlayer(string name) {
         }
     }
     return nullptr;
+}
+
+void Game::removePlayer(shared_ptr<Player> player) {
+    vector<shared_ptr<Player>> tempCurr;
+    for (auto &p : currPlayer) {
+        if (p != player) {
+            tempCurr.push_back(p);
+        } else {
+            p = nullptr;
+        }
+    }
+    currPlayer = tempCurr;
+
+    vector<shared_ptr<Player>> tempPlayers;
+    for (auto &p : players) {
+        if (p->getName() != player->getName()) {
+            tempPlayers.push_back(p);
+        } else {
+            p = nullptr;
+        }
+    }
+    players = tempPlayers;
 }

@@ -27,7 +27,7 @@ public:
     double getFee() override;
     double getPurchaseCost() override;
     void buyImprove() override;
-    void sellImprove() override;
+    void sellImprove(int i) override;
 
     ~Academic() override = default;
 };

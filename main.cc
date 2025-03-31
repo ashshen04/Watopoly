@@ -62,8 +62,7 @@ int main(int argc, char* argv[]) {
 
             ifs >> name >> character >> timscups >> money >> pos;
 
-            Player player = {name, character, timscups, money, pos, game};
-            game.AddPlayer(player);
+            game.AddPlayer(name,character, timscups, money, pos);
 
             if (pos == 10) {
                 ifs >> num_in_tims;
@@ -85,7 +84,7 @@ int main(int argc, char* argv[]) {
 
             if (owner_name != "BANK") {
                 for (auto p : game.getPlayers()) {
-                    if (p.getName() == owner_name) {}
+                    if (p->getName() == owner_name) {}
                     // game.AddProperty(property_name, owner_name, improvements);
                 }
             }
@@ -118,8 +117,7 @@ int main(int argc, char* argv[]) {
             cout << "Enter a single character to represent Player " << i << ": ";
             cin >> character;
 
-            Player player = {name, character, 0, DEFAULT_MONEY, OSAP, game}; // Default starting values
-            game.AddPlayer(player);
+            game.AddPlayer(name, character, 0, DEFAULT_MONEY, OSAP);
         }
 
         cout << "All players have been added. Starting the game!" << endl;

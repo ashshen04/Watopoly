@@ -45,7 +45,7 @@ class Property : public Square {
         virtual void buyImprove() {
             throw std::logic_error("Improvements are not supported for this property.");
         }
-        virtual void sellImprove() {
+        virtual void sellImprove(int num) {
             throw std::logic_error("Improvements are not supported for this property.");
         }
 };

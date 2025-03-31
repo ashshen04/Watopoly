@@ -8,7 +8,7 @@ class Subject {
     vector<Observer*> observers;
 
     public:
-        Subject();
+        Subject() = default;
 
         void attach(Observer *ob) {
             observers.emplace_back(ob);

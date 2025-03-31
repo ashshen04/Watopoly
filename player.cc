@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <string>
 #include "player.h"
 #include "property.h"
@@ -117,6 +118,7 @@ void Player::addProperty(Property *property) {
     } 
     calculateAssets();
 }
+
 void Player::removeProperty(Property *property) {
     for (auto it = properties.begin(); it != properties.end(); ++it) {
         if (it->get() == property) {
@@ -157,7 +159,7 @@ void Player::SubMoney(double subed) {
                     cin >> name;
                     for (auto const & property : properties) {
                         if (property->getName() == name) {
-                            property->sellImprove();
+                            property->sellImprove(1);
                             break;
                         }
                     }
@@ -196,6 +198,94 @@ void Player::SubMoney(double subed) {
         bankrupt();
     }
 }
+
+double Player::SubMoneyInt(double subed) {
+    if (subed <= money) {
+        money -= subed;
+        return subed;
+    } else if (subed <= assets) {
+        cout<< "You do not have enough money, but you can use your assets to pay." << endl;
+        cout<< "You can either sale improvement(s), get mortgaged your properties(m), or trade with others(t)" << endl;
+        char ans;
+        cin >> ans;
+        while(money < subed) {
+            if (ans == 's'){
+                if (playerImproveCost>0){
+                    cout<< "Sell improvement(s) on your properties:" << endl;
+                    for (auto const & property : properties) {
+                        if (property->getImproveNum() > 0) {
+                            cout << property->getName() << " has been improved with a total of " << property->getImproveTotal() << " $" << endl;
+                        }
+                    }
+                    cout<< "Which property do you want to sell improvement(s) on?" << endl;
+                    string name;
+                    cin >> name;
+                    for (auto const & property : properties) {
+                        if (property->getName() == name) {
+                            property->sellImprove(1);
+                            break;
+                        }
+                    }
+                } else {cout<< "You do not have any improvement(s) to sell." << endl;}
+            } else if (ans == 'm') {
+                cout<< "Mortgage your properties:" << endl;
+                for (auto const & property : properties) {
+                    if (!property->isMortgaged()) {
+                        cout << property->getName() << " is not mortgaged." << endl;
+                    }
+                }
+                cout<< "Which property do you want to mortgage?" << endl;
+                string name;
+                cin >> name;
+                for (auto const & property : properties) {
+                    if (property->getName() == name) {
+                        property->mortgage();
+                        break;
+                    }
+                }
+            } else if (ans == 't') {
+                cout<< "Initiating trade..." << endl;
+                game.trade();
+                // need inpleementation
+            } else {
+                cout<< "Invalid input, please try again." << endl;
+            }
+
+            int tmp = subed - money;
+            cout<<"Still need "<< tmp <<" to pay off your payable, choice you approach(s/m/t)"<<endl;
+            cin >> ans;
+        }
+        return subed;
+    } else {
+        double tmp=bankrupt();
+        return tmp;
+    }
+}
+
+double Player::bankrupt() {
+    cout << "You are bankrupt!" << endl;
+    double tmp=money;
+    for (auto const & property : properties) {
+        if(property->isMortgaged()) {
+            tmp += property->getPurchaseCost() / 2;
+            property->unmortgage();
+            property->setOwner(nullptr);
+        } else if (property->getImproveNum() > 0) {
+            tmp += property->getImproveTotal()/2;
+            property->sellImprove(property->getImproveNum());
+            property->setOwner(nullptr);
+            tmp += property->getPurchaseCost();
+        } else {
+            tmp += property->getPurchaseCost();
+            property->setOwner(nullptr);
+        }
+    }
+
+    shared_ptr<Player> ptr = shared_from_this();
+    game.removePlayer(ptr);
+    return tmp;
+}
+
 
 void Player::moveto(int pos) {
     position = pos;

@@ -15,7 +15,7 @@ using namespace std;
 class Player;
 
 class Game {
-    vector<Player> players;
+    vector<shared_ptr<Player>> players;
     vector<shared_ptr<Player>> currPlayer;
     vector<shared_ptr<Property>> properties;
     Dice * dice;
@@ -27,8 +27,8 @@ class Game {
 
     shared_ptr<Player> getCurrPlayer();
     vector<shared_ptr<Property>> getProperties();
-    vector<Player> getPlayers();
-    void AddPlayer(Player &player);
+    vector<shared_ptr<Player>> getPlayers();
+    void AddPlayer(string name, char character, int timscup, double money, int position);
     void StartGame();
     void EndGame();
     void SaveGame(ofstream &file);
@@ -37,6 +37,7 @@ class Game {
     void trade();
     void all(); // outputing 
     shared_ptr<Player> findPlayer(string name);
+    void removePlayer(shared_ptr<Player> player);
 
 };
 
